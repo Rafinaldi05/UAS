@@ -1,0 +1,914 @@
+{
+	"info": {
+		"_postman_id": "31adbda8-5856-4073-8533-af37146eacde",
+		"name": "[Dev] Setoran Hafalan",
+		"description": "TIF APIs\n\n# API KEY dan BEARER TOKEN\n\nSetiap request harus menyertakan API KEY dan Bearer Token.  \nAPI Key disertakan pada parameter\n\n> url........?apikey=&lt;key&gt; \n  \n\nSementara Bearer Token pada Header Request\n\n> Authorization: Bearer &lt;token&gt;",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41717191",
+		"_collection_link": "https://tif-suska.postman.co/workspace/TIF-Suska-API~3cc77d1b-c499-42de-80ef-0e45530a386e/collection/41717191-31adbda8-5856-4073-8533-af37146eacde?action=share&source=collection_link&creator=41717191"
+	},
+	"item": [
+		{
+			"name": "Dosen",
+			"item": [
+				{
+					"name": "delete-setoran",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data_setoran\": [\r\n        {\r\n            \"id\": \"d8c55d13-a0bd-426b-9962-d1f27f46963d\",\r\n            \"id_komponen_setoran\": \"9fc4e7c0-f23c-43a9-8b2a-5f4e9e94d9d1\",\r\n            \"nama_komponen_setoran\": \"An-Naba'\"\r\n        },\r\n        {\r\n            \"id\": \"f4fba6ec-8fca-4c33-a234-008de225337c\",\r\n            \"id_komponen_setoran\": \"cbe746c8-3ffb-4d44-b4ab-fc4e4c6d95ea\",\r\n            \"nama_komponen_setoran\": \"An-Nazi'at\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_API}}{{BASE_URL}}/mahasiswa/setoran/:nim",
+							"host": [
+								"{{URL_API}}{{BASE_URL}}"
+							],
+							"path": [
+								"mahasiswa",
+								"setoran",
+								":nim"
+							],
+							"variable": [
+								{
+									"key": "nim",
+									"value": "12250113521"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "delete-setoran",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"data_setoran\": [\r\n        {\r\n            \"id\": \"d8c55d13-a0bd-426b-9962-d1f27f46963d\",\r\n            \"id_komponen_setoran\": \"9fc4e7c0-f23c-43a9-8b2a-5f4e9e94d9d1\",\r\n            \"nama_komponen_setoran\": \"An-Naba'\"\r\n        },\r\n        {\r\n            \"id\": \"f4fba6ec-8fca-4c33-a234-008de225337c\",\r\n            \"id_komponen_setoran\": \"cbe746c8-3ffb-4d44-b4ab-fc4e4c6d95ea\",\r\n            \"nama_komponen_setoran\": \"An-Nazi'at\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_API}}{{BASE_URL}}/mahasiswa/setoran/:nim",
+									"host": [
+										"{{URL_API}}{{BASE_URL}}"
+									],
+									"path": [
+										"mahasiswa",
+										"setoran",
+										":nim"
+									],
+									"variable": [
+										{
+											"key": "nim",
+											"value": "12250113521"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Apr 2025 13:49:55 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "81"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "Content-Length,X-Request-Id"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15768000; includeSubDomains"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"response\": true,\n    \"message\": \"Yeay, proses pembatalan setoran telah berhasil! ✨\"\n}"
+						}
+					]
+				},
+				{
+					"name": "simpan-setoran",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data_setoran\": [\r\n        {\r\n            \"nama_komponen_setoran\": \"An-Naba'\",\r\n            \"id_komponen_setoran\": \"9fc4e7c0-f23c-43a9-8b2a-5f4e9e94d9d1\"\r\n        },\r\n        {\r\n            \"nama_komponen_setoran\": \"An-Nazi'at\",\r\n            \"id_komponen_setoran\": \"cbe746c8-3ffb-4d44-b4ab-fc4e4c6d95ea\"\r\n        },\r\n        {\r\n            \"nama_komponen_setoran\": \"Abasa\",\r\n            \"id_komponen_setoran\": \"1955f5c1-4c70-4f0e-95b7-6bd50269f6f6\"\r\n        }\r\n    ],\r\n    \"tgl_setoran\": \"2025-04-27\" // Optional: Bisa Null/Gausah Dikirim\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_API}}{{BASE_URL}}/mahasiswa/setoran/:nim",
+							"host": [
+								"{{URL_API}}{{BASE_URL}}"
+							],
+							"path": [
+								"mahasiswa",
+								"setoran",
+								":nim"
+							],
+							"variable": [
+								{
+									"key": "nim",
+									"value": "12250113521"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "simpan-setoran",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"data_setoran\": [\r\n        {\r\n            \"nama_komponen_setoran\": \"An-Naba'\",\r\n            \"id_komponen_setoran\": \"9fc4e7c0-f23c-43a9-8b2a-5f4e9e94d9d1\"\r\n        },\r\n        {\r\n            \"nama_komponen_setoran\": \"An-Nazi'at\",\r\n            \"id_komponen_setoran\": \"cbe746c8-3ffb-4d44-b4ab-fc4e4c6d95ea\"\r\n        },\r\n        {\r\n            \"nama_komponen_setoran\": \"Abasa\",\r\n            \"id_komponen_setoran\": \"1955f5c1-4c70-4f0e-95b7-6bd50269f6f6\"\r\n        }\r\n    ],\r\n    \"tgl_setoran\": \"2025-04-27\" // Optional: Bisa Null/Gausah Dikirim\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_API}}{{BASE_URL}}/mahasiswa/setoran/:nim",
+									"host": [
+										"{{URL_API}}{{BASE_URL}}"
+									],
+									"path": [
+										"mahasiswa",
+										"setoran",
+										":nim"
+									],
+									"variable": [
+										{
+											"key": "nim",
+											"value": "12250113521"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Apr 2025 13:25:57 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "73"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "Content-Length,X-Request-Id"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15768000; includeSubDomains"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"response\": true,\n    \"message\": \"Yeay, proses validasi setoran berhasil! ✨\"\n}"
+						}
+					]
+				},
+				{
+					"name": "setoran-mahasiswa",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_API}}{{BASE_URL}}/mahasiswa/setoran/:nim",
+							"host": [
+								"{{URL_API}}{{BASE_URL}}"
+							],
+							"path": [
+								"mahasiswa",
+								"setoran",
+								":nim"
+							],
+							"variable": [
+								{
+									"key": "nim",
+									"value": "12350114004"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "setoran-mahasiswa",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_API}}{{BASE_URL}}/mahasiswa/setoran/:nim",
+									"host": [
+										"{{URL_API}}{{BASE_URL}}"
+									],
+									"path": [
+										"mahasiswa",
+										"setoran",
+										":nim"
+									],
+									"variable": [
+										{
+											"key": "nim",
+											"value": "12250113521"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Apr 2025 13:27:21 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "7242"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "Content-Length,X-Request-Id"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15768000; includeSubDomains"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"response\": true,\n    \"message\": \"Berikut ini info detail mahasiswa dengan riwayat setoran-nya 📚\",\n    \"data\": {\n        \"info\": {\n            \"nama\": \"M. Farhan Aulia Pratama\",\n            \"nim\": \"12250113521\",\n            \"email\": \"12250113521@students.uin-suska.ac.id\",\n            \"angkatan\": \"2022\",\n            \"semester\": 6,\n            \"dosen_pa\": {\n                \"nip\": \"198804262019032009\",\n                \"nama\": \"Iis Afrianty, S.T., M.Sc.\",\n                \"email\": \"iis.afrianty@uin-suska.ac.id\"\n            }\n        },\n        \"setoran\": {\n            \"log\": [\n                {\n                    \"id\": 13,\n                    \"keterangan\": \"An-Naba', An-Nazi'at, Abasa, serta memilih tanggal setoran 2025-04-27\",\n                    \"aksi\": \"VALIDASI\",\n                    \"ip\": \"36.68.18.250\",\n                    \"user_agent\": \"PostmanRuntime/7.43.3\",\n                    \"timestamp\": \"2025-04-27T13:25:57.436Z\",\n                    \"nim\": \"12250113521\",\n                    \"dosen_yang_mengesahkan\": {\n                        \"nip\": \"198111252007102004\",\n                        \"nama\": \"Novi Yanti, S.T., M.Kom.\",\n                        \"email\": \"novi_yanti@uin-suska.ac.id\"\n                    }\n                },\n                {\n                    \"id\": 11,\n                    \"keterangan\": \"An-Naba', An-Nazi'at, Abasa, serta memilih tanggal setoran 2025-04-27\",\n                    \"aksi\": \"VALIDASI\",\n                    \"ip\": \"36.68.18.250\",\n                    \"user_agent\": \"PostmanRuntime/7.43.3\",\n                    \"timestamp\": \"2025-04-27T13:25:35.799Z\",\n                    \"nim\": \"12250113521\",\n                    \"dosen_yang_mengesahkan\": {\n                        \"nip\": \"198111252007102004\",\n                        \"nama\": \"Novi Yanti, S.T., M.Kom.\",\n                        \"email\": \"novi_yanti@uin-suska.ac.id\"\n                    }\n                }\n            ],\n            \"info_dasar\": {\n                \"total_wajib_setor\": 37,\n                \"total_sudah_setor\": 4,\n                \"total_belum_setor\": 33,\n                \"persentase_progres_setor\": 10.81,\n                \"tgl_terakhir_setor\": \"2025-04-27T00:00:00.000Z\",\n                \"terakhir_setor\": \"Hari ini\"\n            },\n            \"ringkasan\": [\n                {\n                    \"label\": \"KP\",\n                    \"total_wajib_setor\": 8,\n                    \"total_sudah_setor\": 3,\n                    \"total_belum_setor\": 5,\n                    \"persentase_progres_setor\": 37.5\n                },\n                {\n                    \"label\": \"SEMKP\",\n                    \"total_wajib_setor\": 8,\n                    \"total_sudah_setor\": 0,\n                    \"total_belum_setor\": 8,\n                    \"persentase_progres_setor\": 0\n                },\n                {\n                    \"label\": \"DAFTAR_TA\",\n                    \"total_wajib_setor\": 6,\n                    \"total_sudah_setor\": 0,\n                    \"total_belum_setor\": 6,\n                    \"persentase_progres_setor\": 0\n                },\n                {\n                    \"label\": \"SEMPRO\",\n                    \"total_wajib_setor\": 12,\n                    \"total_sudah_setor\": 1,\n                    \"total_belum_setor\": 11,\n                    \"persentase_progres_setor\": 8.33\n                },\n                {\n                    \"label\": \"SIDANG_TA\",\n                    \"total_wajib_setor\": 3,\n                    \"total_sudah_setor\": 0,\n                    \"total_belum_setor\": 3,\n                    \"persentase_progres_setor\": 0\n                }\n            ],\n            \"detail\": [\n                {\n                    \"id\": \"9fc4e7c0-f23c-43a9-8b2a-5f4e9e94d9d1\",\n                    \"nama\": \"An-Naba'\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": true,\n                    \"info_setoran\": {\n                        \"id\": \"d8c55d13-a0bd-426b-9962-d1f27f46963d\",\n                        \"tgl_setoran\": \"2025-04-27\",\n                        \"tgl_validasi\": \"2025-04-27\",\n                        \"dosen_yang_mengesahkan\": {\n                            \"nip\": \"198111252007102004\",\n                            \"nama\": \"Novi Yanti, S.T., M.Kom.\",\n                            \"email\": \"novi_yanti@uin-suska.ac.id\"\n                        }\n                    }\n                },\n                {\n                    \"id\": \"cbe746c8-3ffb-4d44-b4ab-fc4e4c6d95ea\",\n                    \"nama\": \"An-Nazi'at\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": true,\n                    \"info_setoran\": {\n                        \"id\": \"f4fba6ec-8fca-4c33-a234-008de225337c\",\n                        \"tgl_setoran\": \"2025-04-27\",\n                        \"tgl_validasi\": \"2025-04-27\",\n                        \"dosen_yang_mengesahkan\": {\n                            \"nip\": \"198111252007102004\",\n                            \"nama\": \"Novi Yanti, S.T., M.Kom.\",\n                            \"email\": \"novi_yanti@uin-suska.ac.id\"\n                        }\n                    }\n                },\n                {\n                    \"id\": \"1955f5c1-4c70-4f0e-95b7-6bd50269f6f6\",\n                    \"nama\": \"Abasa\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": true,\n                    \"info_setoran\": {\n                        \"id\": \"b74611c2-f201-47e4-989f-5c74856551fd\",\n                        \"tgl_setoran\": \"2025-04-27\",\n                        \"tgl_validasi\": \"2025-04-27\",\n                        \"dosen_yang_mengesahkan\": {\n                            \"nip\": \"198111252007102004\",\n                            \"nama\": \"Novi Yanti, S.T., M.Kom.\",\n                            \"email\": \"novi_yanti@uin-suska.ac.id\"\n                        }\n                    }\n                },\n                {\n                    \"id\": \"47c9d3e3-2e4c-4856-b35b-8c2ff9c6cf67\",\n                    \"nama\": \"At-Takwir\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"5c7d4f83-c57e-4c1e-a5d7-8cdd5580a3a8\",\n                    \"nama\": \"Al-Infitar\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"4d4cb33f-cd1a-4266-9f3c-cd4eb543d865\",\n                    \"nama\": \"Al-Mutaffifin\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"e4ab051e-3483-4215-9f89-7b4f8a3cb2aa\",\n                    \"nama\": \"Al-Inshiqaq\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"6d742e5d-2c9c-4c8c-b8f6-8b2c064b7c65\",\n                    \"nama\": \"Al-Buruj\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"c4359b24-2b85-4724-88f7-4e3f0f5d90f7\",\n                    \"nama\": \"At-Tariq\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"d3a2b8a7-5f38-4f91-b4d9-4c7a6b4c54a9\",\n                    \"nama\": \"Al-A'la\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"eef0d88f-5c5c-4486-afe5-2af4c5d4c79b\",\n                    \"nama\": \"Al-Ghashiyah\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"582b497c-5566-4ea1-84a5-c768b9d56e7c\",\n                    \"nama\": \"Al-Fajr\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"9af2d690-b68e-4ef4-a9a4-5a7a3c690d90\",\n                    \"nama\": \"Al-Balad\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"ae6c9092-1df1-4a1a-bf9e-92e13e8c2e74\",\n                    \"nama\": \"Ash-Shams\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"60e5b519-5d3f-442e-942d-2b2b83e6e8d0\",\n                    \"nama\": \"Al-Lail\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"dc315f0a-55c8-45e4-b1e6-8e2e7e4dc6a9\",\n                    \"nama\": \"Adh-Dhuha\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"5cf93e32-c37b-4c18-a2e5-ef1f72c2fc18\",\n                    \"nama\": \"Ash-Sharh\",\n                    \"label\": \"DAFTAR_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"ce3f1932-f1c8-4515-a5d4-dcf9f91c78ed\",\n                    \"nama\": \"At-Tin\",\n                    \"label\": \"DAFTAR_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"78b973a6-49c2-4a7d-9de8-31f5a0ffb292\",\n                    \"nama\": \"Al-Alaq\",\n                    \"label\": \"DAFTAR_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"8717d00a-5de8-45bb-82ee-2f9e7a8d7d2b\",\n                    \"nama\": \"Al-Qadr\",\n                    \"label\": \"DAFTAR_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"0f9307c9-bc3d-47e2-8aeb-1d5c1e1b5930\",\n                    \"nama\": \"Al-Bayyinah\",\n                    \"label\": \"DAFTAR_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"cb7b3986-3297-4784-95d4-9ab1e44ee7e4\",\n                    \"nama\": \"Az-Zalzalah\",\n                    \"label\": \"DAFTAR_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"b8798bd7-f7ef-4be2-b7eb-56f10d6a5e70\",\n                    \"nama\": \"Al-'Adiyat\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"fb53fcab-9cc7-4661-83a2-79b808cd99f7\",\n                    \"nama\": \"Al-Qari'ah\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"3cdbb256-76a7-432e-a6f3-397e6c25d5b9\",\n                    \"nama\": \"At-Takathur\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"257c7c8c-14ad-4a5f-9c46-39b8bcbac2d8\",\n                    \"nama\": \"Al-Asr\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"4782b53f-fb55-4a9a-8339-1cc2a1d4e3f4\",\n                    \"nama\": \"Al-Humazah\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"d5f9e516-6bcb-421d-8a7e-fd758a8a7c29\",\n                    \"nama\": \"Al-Fil\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"9db9200e-f0f8-4e61-9e7a-6af5e0158a9d\",\n                    \"nama\": \"Quraysh\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"be88c2fd-5d9d-4b3d-a7db-cbe69cfa5365\",\n                    \"nama\": \"Al-Ma'un\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"f67f64c1-891c-42e6-8e6c-8913d1c4b70d\",\n                    \"nama\": \"Al-Kawthar\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"8e2c3d51-6f94-41b9-b26e-0a6e84d5bff8\",\n                    \"nama\": \"Al-Kafirun\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": true,\n                    \"info_setoran\": {\n                        \"id\": \"211d4887-04c1-493c-a564-46bb6cbd3473\",\n                        \"tgl_setoran\": \"2025-02-12\",\n                        \"tgl_validasi\": \"2025-04-08\",\n                        \"dosen_yang_mengesahkan\": {\n                            \"nip\": \"198904212023211026\",\n                            \"nama\": \"Pizaini, S.T., M.Kom.\",\n                            \"email\": \"pizaini@uin-suska.ac.id\"\n                        }\n                    }\n                },\n                {\n                    \"id\": \"cfb5e5ff-cdb6-4565-9bc7-2c54e8238b23\",\n                    \"nama\": \"An-Nasr\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"045d0933-2ad5-4e56-870e-5d62e9e46b6d\",\n                    \"nama\": \"Al-Masad\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"bb5e1b1d-0d27-42b4-86a1-2d5a76d5d3c8\",\n                    \"nama\": \"Al-Ikhlas\",\n                    \"label\": \"SIDANG_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"d03c5ec7-10f4-4c74-86ba-cb5c6f5deef7\",\n                    \"nama\": \"Al-Falaq\",\n                    \"label\": \"SIDANG_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"77298b67-58b5-4e65-b090-d4f5d6e7b6ec\",\n                    \"nama\": \"An-Nas\",\n                    \"label\": \"SIDANG_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                }\n            ]\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "pa-saya",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_API}}{{BASE_URL}}/dosen/pa-saya",
+							"host": [
+								"{{URL_API}}{{BASE_URL}}"
+							],
+							"path": [
+								"dosen",
+								"pa-saya"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "pa-saya",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_API}}{{BASE_URL}}/dosen/pa-saya",
+									"host": [
+										"{{URL_API}}{{BASE_URL}}"
+									],
+									"path": [
+										"dosen",
+										"pa-saya"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "Content-Length,X-Request-Id"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 20 Apr 2025 14:01:51 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12886"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"response\": true,\n    \"message\": \"Berikut info dosen lengkap serta detail mahasiswa per angkatan (max 8 akt)! 😁\",\n    \"data\": {\n        \"nip\": \"198904212023211026\",\n        \"nama\": \"Pizaini, S.T., M.Kom.\",\n        \"email\": \"pizaini@uin-suska.ac.id\",\n        \"info_mahasiswa_pa\": {\n            \"ringkasan\": [\n                {\n                    \"tahun\": \"2024\",\n                    \"total\": 7\n                },\n                {\n                    \"tahun\": \"2022\",\n                    \"total\": 6\n                },\n                {\n                    \"tahun\": \"2020\",\n                    \"total\": 8\n                },\n                {\n                    \"tahun\": \"2019\",\n                    \"total\": 11\n                },\n                {\n                    \"tahun\": \"2018\",\n                    \"total\": 10\n                }\n            ],\n            \"daftar_mahasiswa\": [\n                {\n                    \"email\": \"12450112800@students.uin-suska.ac.id\",\n                    \"nim\": \"12450112800\",\n                    \"nama\": \"Aidil Pramadita Putra\",\n                    \"angkatan\": \"2024\",\n                    \"semester\": 2,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12450112722@students.uin-suska.ac.id\",\n                    \"nim\": \"12450112722\",\n                    \"nama\": \"Andika Pratama Lupi\",\n                    \"angkatan\": \"2024\",\n                    \"semester\": 2,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12450112644@students.uin-suska.ac.id\",\n                    \"nim\": \"12450112644\",\n                    \"nama\": \"Dafie Fauzan Anzadi\",\n                    \"angkatan\": \"2024\",\n                    \"semester\": 2,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12450112924@students.uin-suska.ac.id\",\n                    \"nim\": \"12450112924\",\n                    \"nama\": \"M. Hafizh Raihan Hidayat\",\n                    \"angkatan\": \"2024\",\n                    \"semester\": 2,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12450115177@students.uin-suska.ac.id\",\n                    \"nim\": \"12450115177\",\n                    \"nama\": \"Mhd. Ramadhan\",\n                    \"angkatan\": \"2024\",\n                    \"semester\": 2,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12450112649@students.uin-suska.ac.id\",\n                    \"nim\": \"12450112649\",\n                    \"nama\": \"Rifqi Julian\",\n                    \"angkatan\": \"2024\",\n                    \"semester\": 2,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12450112883@students.uin-suska.ac.id\",\n                    \"nim\": \"12450112883\",\n                    \"nama\": \"Shafwan Khairi Yusla\",\n                    \"angkatan\": \"2024\",\n                    \"semester\": 2,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12250113194@students.uin-suska.ac.id\",\n                    \"nim\": \"12250113194\",\n                    \"nama\": \"Andi Ahmad Insan Kamil\",\n                    \"angkatan\": \"2022\",\n                    \"semester\": 6,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12250121159@students.uin-suska.ac.id\",\n                    \"nim\": \"12250121159\",\n                    \"nama\": \"Azizah Tasykira Paramitha El Razi\",\n                    \"angkatan\": \"2022\",\n                    \"semester\": 6,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12250124556@students.uin-suska.ac.id\",\n                    \"nim\": \"12250124556\",\n                    \"nama\": \"Diah Ayu Kinanti\",\n                    \"angkatan\": \"2022\",\n                    \"semester\": 6,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12250113102@students.uin-suska.ac.id\",\n                    \"nim\": \"12250113102\",\n                    \"nama\": \"Fahryan Arif Guntoro\",\n                    \"angkatan\": \"2022\",\n                    \"semester\": 6,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12250121455@students.uin-suska.ac.id\",\n                    \"nim\": \"12250121455\",\n                    \"nama\": \"Fioni Nikmatul Fajar\",\n                    \"angkatan\": \"2022\",\n                    \"semester\": 6,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12250113223@students.uin-suska.ac.id\",\n                    \"nim\": \"12250113223\",\n                    \"nama\": \"Muhammad Haikal Hakim\",\n                    \"angkatan\": \"2022\",\n                    \"semester\": 6,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12050122300@students.uin-suska.ac.id\",\n                    \"nim\": \"12050122300\",\n                    \"nama\": \"Amanda Rahma Yanti\",\n                    \"angkatan\": \"2020\",\n                    \"semester\": 10,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12050114356@students.uin-suska.ac.id\",\n                    \"nim\": \"12050114356\",\n                    \"nama\": \"Ananda Vermiansyah\",\n                    \"angkatan\": \"2020\",\n                    \"semester\": 10,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12050122312@students.uin-suska.ac.id\",\n                    \"nim\": \"12050122312\",\n                    \"nama\": \"Fadhila\",\n                    \"angkatan\": \"2020\",\n                    \"semester\": 10,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12050122118@students.uin-suska.ac.id\",\n                    \"nim\": \"12050122118\",\n                    \"nama\": \"Marwika Rifattul Iffa\",\n                    \"angkatan\": \"2020\",\n                    \"semester\": 10,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12050114309@students.uin-suska.ac.id\",\n                    \"nim\": \"12050114309\",\n                    \"nama\": \"Muhammar Ezra Erisman\",\n                    \"angkatan\": \"2020\",\n                    \"semester\": 10,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12050114354@students.uin-suska.ac.id\",\n                    \"nim\": \"12050114354\",\n                    \"nama\": \"Renggy Gusfitra Salam\",\n                    \"angkatan\": \"2020\",\n                    \"semester\": 10,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12050114323@students.uin-suska.ac.id\",\n                    \"nim\": \"12050114323\",\n                    \"nama\": \"Tri Handoyo Adi Putra\",\n                    \"angkatan\": \"2020\",\n                    \"semester\": 10,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"12050122112@students.uin-suska.ac.id\",\n                    \"nim\": \"12050122112\",\n                    \"nama\": \"Vioni Sephia Putri\",\n                    \"angkatan\": \"2020\",\n                    \"semester\": 10,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11950115171@students.uin-suska.ac.id\",\n                    \"nim\": \"11950115171\",\n                    \"nama\": \"Rahmat Rizki Hidayat\",\n                    \"angkatan\": \"2019\",\n                    \"semester\": 12,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11950115174@students.uin-suska.ac.id\",\n                    \"nim\": \"11950115174\",\n                    \"nama\": \"Raihan Mahdy\",\n                    \"angkatan\": \"2019\",\n                    \"semester\": 12,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11950115176@students.uin-suska.ac.id\",\n                    \"nim\": \"11950115176\",\n                    \"nama\": \"Raja Zaidaan Putera Dwitama\",\n                    \"angkatan\": \"2019\",\n                    \"semester\": 12,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11950115178@students.uin-suska.ac.id\",\n                    \"nim\": \"11950115178\",\n                    \"nama\": \"Rajendra Pratama\",\n                    \"angkatan\": \"2019\",\n                    \"semester\": 12,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11950115180@students.uin-suska.ac.id\",\n                    \"nim\": \"11950115180\",\n                    \"nama\": \"Ramadanu Putra\",\n                    \"angkatan\": \"2019\",\n                    \"semester\": 12,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11950115183@students.uin-suska.ac.id\",\n                    \"nim\": \"11950115183\",\n                    \"nama\": \"Ramlan Nasution\",\n                    \"angkatan\": \"2019\",\n                    \"semester\": 12,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11950115190@students.uin-suska.ac.id\",\n                    \"nim\": \"11950115190\",\n                    \"nama\": \"Rendi Aulia Rahman\",\n                    \"angkatan\": \"2019\",\n                    \"semester\": 12,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11950115193@students.uin-suska.ac.id\",\n                    \"nim\": \"11950115193\",\n                    \"nama\": \"Reza Mahendra Sardi\",\n                    \"angkatan\": \"2019\",\n                    \"semester\": 12,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11950115197@students.uin-suska.ac.id\",\n                    \"nim\": \"11950115197\",\n                    \"nama\": \"Ridho Kurniawan\",\n                    \"angkatan\": \"2019\",\n                    \"semester\": 12,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11950115200@students.uin-suska.ac.id\",\n                    \"nim\": \"11950115200\",\n                    \"nama\": \"Rifaldo Abdul Rahman\",\n                    \"angkatan\": \"2019\",\n                    \"semester\": 12,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11950115201@students.uin-suska.ac.id\",\n                    \"nim\": \"11950115201\",\n                    \"nama\": \"Rifan Hanafi\",\n                    \"angkatan\": \"2019\",\n                    \"semester\": 12,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11850120450@students.uin-suska.ac.id\",\n                    \"nim\": \"11850120450\",\n                    \"nama\": \"Indri Cahya Meilani\",\n                    \"angkatan\": \"2018\",\n                    \"semester\": 14,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11850121479@students.uin-suska.ac.id\",\n                    \"nim\": \"11850121479\",\n                    \"nama\": \"Janaria Sapitri\",\n                    \"angkatan\": \"2018\",\n                    \"semester\": 14,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11850120411@students.uin-suska.ac.id\",\n                    \"nim\": \"11850120411\",\n                    \"nama\": \"Lidia Apriani\",\n                    \"angkatan\": \"2018\",\n                    \"semester\": 14,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11850120507@students.uin-suska.ac.id\",\n                    \"nim\": \"11850120507\",\n                    \"nama\": \"Nuradha Liza Utami\",\n                    \"angkatan\": \"2018\",\n                    \"semester\": 14,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11850120438@students.uin-suska.ac.id\",\n                    \"nim\": \"11850120438\",\n                    \"nama\": \"Rahmah Miya Juwita\",\n                    \"angkatan\": \"2018\",\n                    \"semester\": 14,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11850121462@students.uin-suska.ac.id\",\n                    \"nim\": \"11850121462\",\n                    \"nama\": \"Reny Masri\",\n                    \"angkatan\": \"2018\",\n                    \"semester\": 14,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11850121585@students.uin-suska.ac.id\",\n                    \"nim\": \"11850121585\",\n                    \"nama\": \"Rizky Dayanti\",\n                    \"angkatan\": \"2018\",\n                    \"semester\": 14,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11850121251@students.uin-suska.ac.id\",\n                    \"nim\": \"11850121251\",\n                    \"nama\": \"Selvi Susanti\",\n                    \"angkatan\": \"2018\",\n                    \"semester\": 14,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11850120868@students.uin-suska.ac.id\",\n                    \"nim\": \"11850120868\",\n                    \"nama\": \"Silviana\",\n                    \"angkatan\": \"2018\",\n                    \"semester\": 14,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                },\n                {\n                    \"email\": \"11850120447@students.uin-suska.ac.id\",\n                    \"nim\": \"11850120447\",\n                    \"nama\": \"Welvia Ningsih\",\n                    \"angkatan\": \"2018\",\n                    \"semester\": 14,\n                    \"info_setoran\": {\n                        \"total_wajib_setor\": 37,\n                        \"total_sudah_setor\": 0,\n                        \"total_belum_setor\": 37,\n                        \"persentase_progres_setor\": 0,\n                        \"tgl_terakhir_setor\": null,\n                        \"terakhir_setor\": \"Belum ada\"\n                    }\n                }\n            ]\n        }\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "API Docs Setoran Hafalan Untuk Role Dosen Pembimbing Akademik (Dosen-PA)\n\nNama Role di Realms TIF: _**\"dosen\"**_"
+		},
+		{
+			"name": "Mahasiswa",
+			"item": [
+				{
+					"name": "setoran-saya",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_API}}{{BASE_URL}}/mahasiswa/setoran-saya",
+							"host": [
+								"{{URL_API}}{{BASE_URL}}"
+							],
+							"path": [
+								"mahasiswa",
+								"setoran-saya"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "setoran-saya",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_API}}{{BASE_URL}}/mahasiswa/setoran-saya",
+									"host": [
+										"{{URL_API}}{{BASE_URL}}"
+									],
+									"path": [
+										"mahasiswa",
+										"setoran-saya"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 05:28:59 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "7635"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15768000; includeSubDomains"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"response\": true,\n    \"message\": \"Berikut ini info detail kamu dengan riwayat setoran-nya! 😁\",\n    \"data\": {\n        \"info\": {\n            \"nama\": \"M. Farhan Aulia Pratama\",\n            \"nim\": \"12250113521\",\n            \"email\": \"12250113521@students.uin-suska.ac.id\",\n            \"angkatan\": \"2022\",\n            \"semester\": 6,\n            \"dosen_pa\": {\n                \"nip\": \"198804262019032009\",\n                \"nama\": \"Iis Afrianty, S.T., M.Sc.\",\n                \"email\": \"iis.afrianty@uin-suska.ac.id\"\n            }\n        },\n        \"setoran\": {\n            \"log\": [\n                {\n                    \"id\": 4,\n                    \"keterangan\": \"An-Naba', An-Nazi'at\",\n                    \"aksi\": \"BATALKAN\",\n                    \"ip\": \"10.3.116.37\",\n                    \"user_agent\": \"PostmanRuntime/7.43.4\",\n                    \"timestamp\": \"2025-04-30T03:49:03.329Z\",\n                    \"nim\": \"12250113521\",\n                    \"dosen_yang_mengesahkan\": {\n                        \"nip\": \"198904212023211026\",\n                        \"nama\": \"Pizaini, S.T., M.Kom.\",\n                        \"email\": \"pizaini@uin-suska.ac.id\"\n                    }\n                },\n                {\n                    \"id\": 3,\n                    \"keterangan\": \"An-Naba', An-Nazi'at, Abasa, serta memilih tanggal setoran 2025-04-27\",\n                    \"aksi\": \"VALIDASI\",\n                    \"ip\": \"10.3.116.37\",\n                    \"user_agent\": \"PostmanRuntime/7.43.4\",\n                    \"timestamp\": \"2025-04-30T03:48:36.092Z\",\n                    \"nim\": \"12250113521\",\n                    \"dosen_yang_mengesahkan\": {\n                        \"nip\": \"198904212023211026\",\n                        \"nama\": \"Pizaini, S.T., M.Kom.\",\n                        \"email\": \"pizaini@uin-suska.ac.id\"\n                    }\n                },\n                {\n                    \"id\": 2,\n                    \"keterangan\": \"An-Naba', An-Nazi'at, Abasa, serta memilih tanggal setoran 2025-04-27\",\n                    \"aksi\": \"VALIDASI\",\n                    \"ip\": \"10.2.28.33\",\n                    \"user_agent\": \"PostmanRuntime/7.43.4\",\n                    \"timestamp\": \"2025-04-30T02:18:33.675Z\",\n                    \"nim\": \"12250113521\",\n                    \"dosen_yang_mengesahkan\": {\n                        \"nip\": \"198904212023211026\",\n                        \"nama\": \"Pizaini, S.T., M.Kom.\",\n                        \"email\": \"pizaini@uin-suska.ac.id\"\n                    }\n                },\n                {\n                    \"id\": 1,\n                    \"keterangan\": \"An-Naba', An-Nazi'at, Abasa, serta memilih tanggal setoran 2025-04-27\",\n                    \"aksi\": \"VALIDASI\",\n                    \"ip\": \"10.2.28.33\",\n                    \"user_agent\": \"PostmanRuntime/7.43.4\",\n                    \"timestamp\": \"2025-04-30T02:09:27.906Z\",\n                    \"nim\": \"12250113521\",\n                    \"dosen_yang_mengesahkan\": {\n                        \"nip\": \"198904212023211026\",\n                        \"nama\": \"Pizaini, S.T., M.Kom.\",\n                        \"email\": \"pizaini@uin-suska.ac.id\"\n                    }\n                }\n            ],\n            \"info_dasar\": {\n                \"total_wajib_setor\": 37,\n                \"total_sudah_setor\": 3,\n                \"total_belum_setor\": 34,\n                \"persentase_progres_setor\": 8.11,\n                \"tgl_terakhir_setor\": \"2025-04-27T00:00:00.000Z\",\n                \"terakhir_setor\": \"4 Hari yang lalu\"\n            },\n            \"ringkasan\": [\n                {\n                    \"label\": \"KP\",\n                    \"total_wajib_setor\": 8,\n                    \"total_sudah_setor\": 3,\n                    \"total_belum_setor\": 5,\n                    \"persentase_progres_setor\": 37.5\n                },\n                {\n                    \"label\": \"SEMKP\",\n                    \"total_wajib_setor\": 8,\n                    \"total_sudah_setor\": 0,\n                    \"total_belum_setor\": 8,\n                    \"persentase_progres_setor\": 0\n                },\n                {\n                    \"label\": \"DAFTAR_TA\",\n                    \"total_wajib_setor\": 6,\n                    \"total_sudah_setor\": 0,\n                    \"total_belum_setor\": 6,\n                    \"persentase_progres_setor\": 0\n                },\n                {\n                    \"label\": \"SEMPRO\",\n                    \"total_wajib_setor\": 12,\n                    \"total_sudah_setor\": 0,\n                    \"total_belum_setor\": 12,\n                    \"persentase_progres_setor\": 0\n                },\n                {\n                    \"label\": \"SIDANG_TA\",\n                    \"total_wajib_setor\": 3,\n                    \"total_sudah_setor\": 0,\n                    \"total_belum_setor\": 3,\n                    \"persentase_progres_setor\": 0\n                }\n            ],\n            \"detail\": [\n                {\n                    \"id\": \"9fc4e7c0-f23c-43a9-8b2a-5f4e9e94d9d1\",\n                    \"nama\": \"An-Naba'\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": true,\n                    \"info_setoran\": {\n                        \"id\": \"56f76ce1-ff87-43bd-91eb-d066fed6d787\",\n                        \"tgl_setoran\": \"2025-04-27\",\n                        \"tgl_validasi\": \"2025-04-30\",\n                        \"dosen_yang_mengesahkan\": {\n                            \"nip\": \"198904212023211026\",\n                            \"nama\": \"Pizaini, S.T., M.Kom.\",\n                            \"email\": \"pizaini@uin-suska.ac.id\"\n                        }\n                    }\n                },\n                {\n                    \"id\": \"cbe746c8-3ffb-4d44-b4ab-fc4e4c6d95ea\",\n                    \"nama\": \"An-Nazi'at\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": true,\n                    \"info_setoran\": {\n                        \"id\": \"66bbe8b1-3380-4ddd-8416-5c545b3fc068\",\n                        \"tgl_setoran\": \"2025-04-27\",\n                        \"tgl_validasi\": \"2025-04-30\",\n                        \"dosen_yang_mengesahkan\": {\n                            \"nip\": \"198904212023211026\",\n                            \"nama\": \"Pizaini, S.T., M.Kom.\",\n                            \"email\": \"pizaini@uin-suska.ac.id\"\n                        }\n                    }\n                },\n                {\n                    \"id\": \"1955f5c1-4c70-4f0e-95b7-6bd50269f6f6\",\n                    \"nama\": \"Abasa\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": true,\n                    \"info_setoran\": {\n                        \"id\": \"9217df8e-a006-4833-a1d6-0c0cd8e18f3f\",\n                        \"tgl_setoran\": \"2025-04-27\",\n                        \"tgl_validasi\": \"2025-04-30\",\n                        \"dosen_yang_mengesahkan\": {\n                            \"nip\": \"198904212023211026\",\n                            \"nama\": \"Pizaini, S.T., M.Kom.\",\n                            \"email\": \"pizaini@uin-suska.ac.id\"\n                        }\n                    }\n                },\n                {\n                    \"id\": \"47c9d3e3-2e4c-4856-b35b-8c2ff9c6cf67\",\n                    \"nama\": \"At-Takwir\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"5c7d4f83-c57e-4c1e-a5d7-8cdd5580a3a8\",\n                    \"nama\": \"Al-Infitar\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"4d4cb33f-cd1a-4266-9f3c-cd4eb543d865\",\n                    \"nama\": \"Al-Mutaffifin\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"e4ab051e-3483-4215-9f89-7b4f8a3cb2aa\",\n                    \"nama\": \"Al-Inshiqaq\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"6d742e5d-2c9c-4c8c-b8f6-8b2c064b7c65\",\n                    \"nama\": \"Al-Buruj\",\n                    \"label\": \"KP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"c4359b24-2b85-4724-88f7-4e3f0f5d90f7\",\n                    \"nama\": \"At-Tariq\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"d3a2b8a7-5f38-4f91-b4d9-4c7a6b4c54a9\",\n                    \"nama\": \"Al-A'la\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"eef0d88f-5c5c-4486-afe5-2af4c5d4c79b\",\n                    \"nama\": \"Al-Ghashiyah\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"582b497c-5566-4ea1-84a5-c768b9d56e7c\",\n                    \"nama\": \"Al-Fajr\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"9af2d690-b68e-4ef4-a9a4-5a7a3c690d90\",\n                    \"nama\": \"Al-Balad\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"ae6c9092-1df1-4a1a-bf9e-92e13e8c2e74\",\n                    \"nama\": \"Ash-Shams\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"60e5b519-5d3f-442e-942d-2b2b83e6e8d0\",\n                    \"nama\": \"Al-Lail\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"dc315f0a-55c8-45e4-b1e6-8e2e7e4dc6a9\",\n                    \"nama\": \"Adh-Dhuha\",\n                    \"label\": \"SEMKP\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"5cf93e32-c37b-4c18-a2e5-ef1f72c2fc18\",\n                    \"nama\": \"Ash-Sharh\",\n                    \"label\": \"DAFTAR_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"ce3f1932-f1c8-4515-a5d4-dcf9f91c78ed\",\n                    \"nama\": \"At-Tin\",\n                    \"label\": \"DAFTAR_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"78b973a6-49c2-4a7d-9de8-31f5a0ffb292\",\n                    \"nama\": \"Al-Alaq\",\n                    \"label\": \"DAFTAR_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"8717d00a-5de8-45bb-82ee-2f9e7a8d7d2b\",\n                    \"nama\": \"Al-Qadr\",\n                    \"label\": \"DAFTAR_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"0f9307c9-bc3d-47e2-8aeb-1d5c1e1b5930\",\n                    \"nama\": \"Al-Bayyinah\",\n                    \"label\": \"DAFTAR_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"cb7b3986-3297-4784-95d4-9ab1e44ee7e4\",\n                    \"nama\": \"Az-Zalzalah\",\n                    \"label\": \"DAFTAR_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"b8798bd7-f7ef-4be2-b7eb-56f10d6a5e70\",\n                    \"nama\": \"Al-'Adiyat\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"fb53fcab-9cc7-4661-83a2-79b808cd99f7\",\n                    \"nama\": \"Al-Qari'ah\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"3cdbb256-76a7-432e-a6f3-397e6c25d5b9\",\n                    \"nama\": \"At-Takathur\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"257c7c8c-14ad-4a5f-9c46-39b8bcbac2d8\",\n                    \"nama\": \"Al-Asr\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"4782b53f-fb55-4a9a-8339-1cc2a1d4e3f4\",\n                    \"nama\": \"Al-Humazah\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"d5f9e516-6bcb-421d-8a7e-fd758a8a7c29\",\n                    \"nama\": \"Al-Fil\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"9db9200e-f0f8-4e61-9e7a-6af5e0158a9d\",\n                    \"nama\": \"Quraysh\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"be88c2fd-5d9d-4b3d-a7db-cbe69cfa5365\",\n                    \"nama\": \"Al-Ma'un\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"f67f64c1-891c-42e6-8e6c-8913d1c4b70d\",\n                    \"nama\": \"Al-Kawthar\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"8e2c3d51-6f94-41b9-b26e-0a6e84d5bff8\",\n                    \"nama\": \"Al-Kafirun\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"cfb5e5ff-cdb6-4565-9bc7-2c54e8238b23\",\n                    \"nama\": \"An-Nasr\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"045d0933-2ad5-4e56-870e-5d62e9e46b6d\",\n                    \"nama\": \"Al-Masad\",\n                    \"label\": \"SEMPRO\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"bb5e1b1d-0d27-42b4-86a1-2d5a76d5d3c8\",\n                    \"nama\": \"Al-Ikhlas\",\n                    \"label\": \"SIDANG_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"d03c5ec7-10f4-4c74-86ba-cb5c6f5deef7\",\n                    \"nama\": \"Al-Falaq\",\n                    \"label\": \"SIDANG_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                },\n                {\n                    \"id\": \"77298b67-58b5-4e65-b090-d4f5d6e7b6ec\",\n                    \"nama\": \"An-Nas\",\n                    \"label\": \"SIDANG_TA\",\n                    \"sudah_setor\": false,\n                    \"info_setoran\": null\n                }\n            ]\n        }\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "API Docs Setoran Hafalan Untuk Role Mahasiswa TIF UIN Suska Riau\n\nNama Role di Realms TIF: _**\"mahasiswa\"**_"
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseBody = pm.response.json();",
+									"const token = responseBody.access_token;",
+									"const refreshToken = responseBody.refresh_token",
+									"const id_token = responseBody.id_token",
+									"pm.environment.set(\"TOKEN\", token);",
+									"pm.environment.set('KC_REFRESH_TOKEN', refreshToken);",
+									"pm.environment.set('KC_TOKEN_ID', id_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "setoran-mobile-dev",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "aqJp3xnXKudgC7RMOshEQP7ZoVKWzoSl",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{vault:USERNAME}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{vault:PASSWORD}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid profile email",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{KC_URL}}/realms/dev/protocol/openid-connect/token",
+							"host": [
+								"{{KC_URL}}"
+							],
+							"path": [
+								"realms",
+								"dev",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"TOKEN\", \"\");",
+									"pm.environment.set('KC_REFRESH_TOKEN', \"\");",
+									"pm.environment.set('KC_TOKEN_ID', \"\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "setoran-mobile-dev",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "aqJp3xnXKudgC7RMOshEQP7ZoVKWzoSl",
+									"type": "text"
+								},
+								{
+									"key": "id_token_hint",
+									"value": "{{KC_TOKEN_ID}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{KC_URL}}/realms/dev/protocol/openid-connect/logout",
+							"host": [
+								"{{KC_URL}}"
+							],
+							"path": [
+								"realms",
+								"dev",
+								"protocol",
+								"openid-connect",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh_token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "setoran-mobile-dev",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "aqJp3xnXKudgC7RMOshEQP7ZoVKWzoSl",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{KC_REFRESH_TOKEN}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{KC_URL}}/realms/dev/protocol/openid-connect/token",
+							"host": [
+								"{{KC_URL}}"
+							],
+							"path": [
+								"realms",
+								"dev",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "userinfo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{KC_URL}}/realms/dev/protocol/openid-connect/userinfo",
+							"host": [
+								"{{KC_URL}}"
+							],
+							"path": [
+								"realms",
+								"dev",
+								"protocol",
+								"openid-connect",
+								"userinfo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL_API}}{{BASE_URL}}/",
+					"host": [
+						"{{URL_API}}{{BASE_URL}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "status",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_API}}{{BASE_URL}}/",
+							"host": [
+								"{{URL_API}}{{BASE_URL}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 03 May 2025 15:22:46 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "245"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Max-Age",
+							"value": "5"
+						},
+						{
+							"key": "Access-Control-Expose-Headers",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "*"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15768000; includeSubDomains"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"response\": true,\n    \"message\": \"Cihuy, Halow Semua 👋 ~ Selamat datang di API Setoran Hafalan! 🎉\",\n    \"version\": \"v4.0.4-alpha\",\n    \"contributor\": \"https://github.com/MFarhanZ1/hono-api-setoran-hafalan\",\n    \"timezone\": \"Asia/Jakarta ~ 3/5/2025, 22.22.46 WIB\"\n}"
+				}
+			]
+		},
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL_API}}{{BASE_URL}}/health",
+					"host": [
+						"{{URL_API}}{{BASE_URL}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "health",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_API}}{{BASE_URL}}/health",
+							"host": [
+								"{{URL_API}}{{BASE_URL}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Expose-Headers",
+							"value": "Content-Length,X-Request-Id"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Apr 2025 14:03:01 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "230"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"response\": true,\n    \"message\": \"Cihuy, API Setoran Hafalan sehat-sehat saja! 😁\",\n    \"status\": \"OK\",\n    \"uptime\": 3845.2610167000003,\n    \"memoryUsage\": {\n        \"rss\": 309989376,\n        \"heapTotal\": 34923520,\n        \"heapUsed\": 13997323,\n        \"external\": 3518827,\n        \"arrayBuffers\": 0\n    }\n}"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "/setoran-dev/v1",
+			"type": "string"
+		},
+		{
+			"key": "KC_URL",
+			"value": "https://id.tif.uin-suska.ac.id",
+			"type": "string"
+		},
+		{
+			"key": "URL_API",
+			"value": "https://api.tif.uin-suska.ac.id",
+			"type": "string"
+		},
+		{
+			"key": "TOKEN",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "KC_REFRESH_TOKEN",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "KC_TOKEN_ID",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
