@@ -7,16 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_home)
 
-        val nama = intent.getStringExtra("nama")
-        val nim = intent.getStringExtra("nim")
+        val nama = intent.getStringExtra("nama") ?: "Pengguna"
+        val nim = intent.getStringExtra("nim") ?: "-"
 
-        val textView = TextView(this).apply {
-            textSize = 20f
-            text = "Selamat datang, $nama\nNIM: $nim"
-            setPadding(24, 24, 24, 24)
-        }
+        val tvWelcome = findViewById<TextView>(R.id.tvWelcome)
+        val tvNim = findViewById<TextView>(R.id.tvNim)
 
-        setContentView(textView)
+        tvWelcome.text = "Selamat datang, $nama"
+        tvNim.text = "NIM: $nim"
     }
 }

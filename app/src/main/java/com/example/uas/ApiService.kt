@@ -5,7 +5,8 @@ interface ApiService {
     @FormUrlEncoded
     @POST("realms/dev/protocol/openid-connect/token")
     suspend fun login(
-        @Field("client_id") clientId: String = "mobile-client",
+        @Field("client_id") clientId: String = "setoran-mobile-dev",
+        @Field("client_secret") clientSecret: String = "aqJp3xnXKudgC7RMOshEQP7ZoVKWzoSl",
         @Field("grant_type") grantType: String = "password",
         @Field("username") username: String,
         @Field("password") password: String
@@ -15,4 +16,5 @@ interface ApiService {
     suspend fun getMahasiswa(
         @Header("Authorization") token: String
     ): DataModels.SetoranResponse
+
 }

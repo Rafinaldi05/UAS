@@ -11,6 +11,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -20,17 +22,30 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var etPassword: EditText
     private lateinit var btnLogin: Button
 
-    private val loginService = Retrofit.Builder()
-        .baseUrl("https://id.tif.uin-suska.ac.id/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(ApiService::class.java)
+    private val loginService: ApiService by lazy {
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
 
-    private val setoranService = Retrofit.Builder()
-        .baseUrl("https://api.tif.uin-suska.ac.id/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(ApiService::class.java)
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .build()
+
+        Retrofit.Builder()
+            .baseUrl("https://id.tif.uin-suska.ac.id/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
+    }
+
+    private val setoranService: ApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://api.tif.uin-suska.ac.id/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,10 +71,14 @@ class LoginActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = loginService.login(username = username, password = password)
-                val token = response.access_token
+                val response = loginService.login(
+                    clientId = "setoran-mobile-dev",
+                    grantType = "password",
+                    username = username,
+                    password = password
+                )
+                val token = response.accessToken
 
-                // Simpan token
                 val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
                 sharedPref.edit().putString("auth_token", token).apply()
 
