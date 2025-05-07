@@ -1,6 +1,5 @@
 package com.example.uas
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -57,44 +56,53 @@ class LoginActivity : AppCompatActivity() {
 
         btnLogin.setOnClickListener {
             val nim = etNim.text.toString()
-            if (nim.isEmpty()) {
-                Toast.makeText(this, "NIM tidak boleh kosong", Toast.LENGTH_SHORT).show()
+            val password = etPassword.text.toString()
+
+            if (nim.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "NIM dan password tidak boleh kosong", Toast.LENGTH_SHORT).show()
             } else {
-                login(nim)
+                login(nim, password)
             }
         }
     }
 
-    private fun login(nim: String) {
-        val username = etNim.text.toString()
-        val password = etPassword.text.toString()
-
+    private fun login(nim: String, password: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = loginService.login(
-                    clientId = "setoran-mobile-dev",
-                    grantType = "password",
-                    username = username,
+                    username = nim,
                     password = password
                 )
+
                 val token = response.accessToken
+                if (token.isNullOrBlank()) {
+                    throw Exception("Token tidak ditemukan dalam respons.")
+                }
 
-                val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-                sharedPref.edit().putString("auth_token", token).apply()
+                val mahasiswaResponse = setoranService.getMahasiswa("Bearer $token")
 
-                withContext(Dispatchers.Main) {
-                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                    intent.putExtra("nama", username)
-                    intent.putExtra("nim", username)
-                    startActivity(intent)
+                if (mahasiswaResponse.isSuccessful) {
+                    val data = mahasiswaResponse.body()
+                    val nama = data?.data?.info?.nama
+                    val nimResmi = data?.data?.info?.nim
+
+                    val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                    sharedPref.edit().putString("auth_token", token).apply()
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@LoginActivity, "Selamat datang $nama ($nimResmi)", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                        finish()
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@LoginActivity, "Gagal mendapatkan data mahasiswa", Toast.LENGTH_SHORT).show()
+                    }
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "Login gagal: ${e.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@LoginActivity, "Login gagal: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
