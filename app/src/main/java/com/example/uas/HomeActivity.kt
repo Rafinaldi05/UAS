@@ -63,9 +63,7 @@ class HomeActivity : AppCompatActivity() {
                     if (responseBody != null) {
                         val nama = responseBody.data.info.nama
                         val nim = responseBody.data.info.nim
-
-                        // 🔧 Bungkus SetoranItem jadi List
-                        val setoranList = listOf(responseBody.data.setoran)
+                        val setoranList = responseBody.data.setoran.detail
 
                         withContext(Dispatchers.Main) {
                             tvWelcome.text = "Selamat datang, $nama"

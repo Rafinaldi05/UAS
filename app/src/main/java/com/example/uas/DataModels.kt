@@ -18,7 +18,7 @@ class DataModels {
 
     data class SetoranData(
         val info: MahasiswaInfo,
-        val setoran: SetoranItem // ✅ Ditambahkan agar tidak null saat parsing
+        val setoran: SetoranContent
     )
 
     data class MahasiswaInfo(
@@ -36,11 +36,35 @@ class DataModels {
         val email: String
     )
 
+    data class SetoranContent(
+        val log: List<Any>,
+        @SerializedName("info_dasar") val infoDasar: InfoDasar,
+        val ringkasan: List<RingkasanItem>,
+        val detail: List<SetoranItem>
+    )
+
+    data class InfoDasar(
+        val total_wajib_setor: Int,
+        val total_sudah_setor: Int,
+        val total_belum_setor: Int,
+        val persentase_progres_setor: Int,
+        val tgl_terakhir_setor: String?,
+        val terakhir_setor: String
+    )
+
+    data class RingkasanItem(
+        val label: String,
+        val total_wajib_setor: Int,
+        val total_sudah_setor: Int,
+        val total_belum_setor: Int,
+        val persentase_progres_setor: Int
+    )
+
     data class SetoranItem(
-        @SerializedName("nama_surah") val namaSurah: String,
-        @SerializedName("tanggal_setoran") val tanggalSetoran: String?,
-        @SerializedName("persyaratan") val persyaratan: String?,
-        @SerializedName("dosen") val dosen: String?,
-        @SerializedName("status") val status: String?
+        val id: String,
+        val nama: String,
+        val label: String,
+        @SerializedName("sudah_setor") val sudahSetor: Boolean,
+        @SerializedName("info_setoran") val infoSetoran: Any?
     )
 }

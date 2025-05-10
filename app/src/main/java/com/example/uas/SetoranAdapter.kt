@@ -21,9 +21,9 @@ class SetoranAdapter : RecyclerView.Adapter<SetoranAdapter.ViewHolder>() {
         private val tvStatus: TextView = view.findViewById(R.id.tvStatus)
 
         fun bind(item: DataModels.SetoranItem) {
-            tvSurah.text = item.namaSurah
-            tvTanggal.text = item.tanggalSetoran ?: "Belum disetor"
-            tvStatus.text = item.status ?: "-"
+            tvSurah.text = item.nama
+            tvTanggal.text = "Kategori: ${item.label}"
+            tvStatus.text = if (item.sudahSetor) "✅ Sudah Setor" else "❌ Belum Setor"
         }
     }
 
