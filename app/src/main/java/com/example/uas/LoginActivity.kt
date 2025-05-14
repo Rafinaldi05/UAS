@@ -2,24 +2,20 @@ package com.example.uas
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import com.example.uas.ui.theme.UASTheme
+import com.example.uas.ui.theme.LoginScreen
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class LoginActivity : AppCompatActivity() {
-
-    private lateinit var etNim: EditText
-    private lateinit var etPassword: EditText
-    private lateinit var btnLogin: Button
+class LoginActivity : ComponentActivity() {
 
     private val loginService: ApiService by lazy {
         val logging = HttpLoggingInterceptor().apply {
@@ -48,33 +44,24 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
-        etNim = findViewById(R.id.etNim)
-        etPassword = findViewById(R.id.etPassword)
-        btnLogin = findViewById(R.id.btnLogin)
-
-        btnLogin.setOnClickListener {
-            val nim = etNim.text.toString()
-            val password = etPassword.text.toString()
-
-            if (nim.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "NIM dan password tidak boleh kosong", Toast.LENGTH_SHORT).show()
-            } else {
-                login(nim, password)
+        setContent {
+            UASTheme {
+                Surface(modifier = Modifier) {
+                    LoginScreen { nim, password ->
+                        performLogin(nim, password)
+                    }
+                }
             }
         }
     }
 
-    private fun login(nim: String, password: String) {
+    private fun performLogin(nim: String, password: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = loginService.login(
-                    username = nim,
-                    password = password
-                )
-
+                val response = loginService.login(username = nim, password = password)
                 val token = response.accessToken
+
                 if (token.isNullOrBlank()) {
                     throw Exception("Token tidak ditemukan dalam respons.")
                 }
@@ -83,15 +70,20 @@ class LoginActivity : AppCompatActivity() {
 
                 if (mahasiswaResponse.isSuccessful) {
                     val data = mahasiswaResponse.body()
-                    val nama = data?.data?.info?.nama
-                    val nimResmi = data?.data?.info?.nim
+                    val nama = data?.data?.info?.nama ?: "Nama Tidak Diketahui"
+                    val nimResmi = data?.data?.info?.nim ?: "NIM Tidak Diketahui"
 
                     val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
                     sharedPref.edit().putString("auth_token", token).apply()
 
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@LoginActivity, "Selamat datang $nama ($nimResmi)", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+
+                        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                        intent.putExtra("TOKEN", token)
+                        intent.putExtra("NAMA", nama)
+                        intent.putExtra("NIM", nimResmi)
+                        startActivity(intent)
                         finish()
                     }
                 } else {
@@ -99,8 +91,8 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this@LoginActivity, "Gagal mendapatkan data mahasiswa", Toast.LENGTH_SHORT).show()
                     }
                 }
+
             } catch (e: Exception) {
-                e.printStackTrace()
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@LoginActivity, "Login gagal: ${e.message}", Toast.LENGTH_SHORT).show()
                 }

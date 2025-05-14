@@ -1,27 +1,97 @@
 package com.example.uas
 
-import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.CoroutineScope
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.uas.ui.theme.UASTheme
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : ComponentActivity() {
 
-    private lateinit var tvWelcome: TextView
-    private lateinit var tvNim: TextView
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: SetoranAdapter
+    private val viewModel: MainViewModel by viewModels()
 
-    private val setoranService: ApiService by lazy {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val token = intent.getStringExtra("TOKEN") ?: ""
+        val nama = intent.getStringExtra("NAMA") ?: "Nama Kosong"
+        val nim = intent.getStringExtra("NIM") ?: "NIM Kosong"
+
+        viewModel.fetchData(token)
+
+        setContent {
+            UASTheme {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    val setoranList by viewModel.setoranList.collectAsState()
+                    val isLoading by viewModel.isLoading.collectAsState()
+                    val errorMessage by viewModel.errorMessage.collectAsState()
+
+                    when {
+                        isLoading -> {
+                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                CircularProgressIndicator()
+                            }
+                        }
+
+                        errorMessage != null -> {
+                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                Text(text = errorMessage ?: "Terjadi kesalahan")
+                            }
+                        }
+
+                        else -> {
+                            MainScreen(
+                                nama = nama,
+                                nim = nim,
+                                setoranList = setoranList,
+                                onLogout = {
+                                    logout()
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun logout() {
+        val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+        sharedPref.edit().remove("auth_token").apply()
+
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+}
+class MainViewModel : ViewModel() {
+
+    private val _setoranList = MutableStateFlow<List<DataModels.SetoranItem>>(emptyList())
+    val setoranList: StateFlow<List<DataModels.SetoranItem>> = _setoranList
+
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage
+
+    private val apiService: ApiService by lazy {
         Retrofit.Builder()
             .baseUrl("https://api.tif.uin-suska.ac.id/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -29,69 +99,23 @@ class HomeActivity : AppCompatActivity() {
             .create(ApiService::class.java)
     }
 
-    @SuppressLint("MissingInflatedId")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-
-        tvWelcome = findViewById(R.id.tvWelcome)
-        tvNim = findViewById(R.id.tvNim)
-        recyclerView = findViewById(R.id.recyclerViewSetoran)
-
-        adapter = SetoranAdapter()
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
-
-        val token = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-            .getString("auth_token", null)
-
-        if (token != null) {
-            fetchSetoranData("Bearer $token")
-        } else {
-            Toast.makeText(this, "Token tidak ditemukan", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun fetchSetoranData(authHeader: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+    fun fetchData(token: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isLoading.value = true
+            _errorMessage.value = null
             try {
-                val response = setoranService.getMahasiswa(authHeader)
-
+                val response = apiService.getMahasiswa("Bearer $token")
                 if (response.isSuccessful) {
-                    val responseBody = response.body()
-
-                    if (responseBody != null) {
-                        val nama = responseBody.data.info.nama
-                        val nim = responseBody.data.info.nim
-                        val setoranList = responseBody.data.setoran.detail
-
-                        withContext(Dispatchers.Main) {
-                            tvWelcome.text = "Selamat datang, $nama"
-                            tvNim.text = "NIM: $nim"
-                            adapter.submitList(setoranList)
-                        }
-                    } else {
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(
-                                this@HomeActivity,
-                                "Data kosong dari server.",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    }
+                    val data = response.body()
+                    val list = data?.data?.setoran?.detail ?: emptyList()
+                    _setoranList.value = list
                 } else {
-                    val errorText = response.errorBody()?.string()
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@HomeActivity, "Gagal: $errorText", Toast.LENGTH_LONG)
-                            .show()
-                    }
+                    _errorMessage.value = "Gagal mengambil data: ${response.code()}"
                 }
-
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(this@HomeActivity, "Kesalahan: ${e.message}", Toast.LENGTH_LONG)
-                        .show()
-                }
+                _errorMessage.value = "Error: ${e.message}"
+            } finally {
+                _isLoading.value = false
             }
         }
     }

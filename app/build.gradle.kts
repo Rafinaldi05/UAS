@@ -30,12 +30,16 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "11"
     }
     buildFeatures {
         compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
 }
 
@@ -51,6 +55,21 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.espresso.core)
+    implementation(libs.ads.mobile.sdk)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.foundation.android)
+    implementation(libs.foundation.layout.android)
+    implementation(libs.foundation.layout.android)
+    implementation(libs.foundation.layout.android)
+    implementation(libs.foundation.layout.android)
+    implementation(libs.foundation.layout.android)
+    implementation(libs.foundation.layout.android)
+    implementation(libs.foundation.layout.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -63,6 +82,17 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.logging.interceptor)
+    implementation (libs.ui)
+    implementation (libs.material3)
+    implementation (libs.androidx.activity.compose.v172)
+    implementation (libs.ui.tooling.preview)
+    implementation (libs.androidx.lifecycle.runtime.ktx.v260)
+    implementation (libs.androidx.material.icons.extended)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+    implementation (libs.volley)
+    implementation(libs.androidx.navigation.compose)
+
+
 
 
 }

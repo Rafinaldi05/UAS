@@ -47,7 +47,7 @@ class DataModels {
         val total_wajib_setor: Int,
         val total_sudah_setor: Int,
         val total_belum_setor: Int,
-        val persentase_progres_setor: Int,
+        val persentase_progres_setor: Double?,
         val tgl_terakhir_setor: String?,
         val terakhir_setor: String
     )
@@ -59,12 +59,22 @@ class DataModels {
         val total_belum_setor: Int,
         val persentase_progres_setor: Int
     )
+    object NavRoutes {
+        const val HOME = "home"
+        const val SETORAN = "setoran"
+        const val PROFIL = "profil"
+    }
 
     data class SetoranItem(
         val id: String,
         val nama: String,
         val label: String,
         @SerializedName("sudah_setor") val sudahSetor: Boolean,
-        @SerializedName("info_setoran") val infoSetoran: Any?
+        @SerializedName("info_setoran") val infoSetoran: Any?,
+        val judulSurah: String,
+        val dariAyat: Int,
+        val sampaiAyat: Int,
+        val tanggal: String
+
     )
 }
