@@ -28,14 +28,12 @@ fun HomeScreen(
             .verticalScroll(rememberScrollState()), // agar semua konten bisa discroll
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Top Bar
         Text(
             text = "Dashboard",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
 
-        // Greeting Card
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
@@ -48,7 +46,6 @@ fun HomeScreen(
             }
         }
 
-        // Progress Card
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -72,7 +69,6 @@ fun HomeScreen(
             }
         }
 
-        // Riwayat Terbaru
         Text(
             "Riwayat Terbaru",
             fontWeight = FontWeight.Bold,

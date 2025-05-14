@@ -73,13 +73,6 @@ fun LoginScreen(onLoginClick: (String, String) -> Unit) {
                     style = MaterialTheme.typography.headlineSmall
                 )
 
-                Text(
-                    text = "Masukkan NIM dan Password untuk melanjutkan",
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                // NIM Field
                 OutlinedTextField(
                     value = nim,
                     onValueChange = { nim = it },
@@ -111,7 +104,6 @@ fun LoginScreen(onLoginClick: (String, String) -> Unit) {
                     Text("Password tidak boleh kosong", color = Color.Red, style = MaterialTheme.typography.labelSmall)
                 }
 
-                // Forgot Password
                 Text(
                     text = "Lupa Password?",
                     style = MaterialTheme.typography.labelSmall.copy(
@@ -126,7 +118,6 @@ fun LoginScreen(onLoginClick: (String, String) -> Unit) {
                         }
                 )
 
-                // Login Button
                 Button(
                     onClick = {
                         if (nim.isNotBlank() && password.isNotBlank()) {

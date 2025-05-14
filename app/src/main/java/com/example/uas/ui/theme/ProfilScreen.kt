@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 fun ProfilScreen(nama: String, nim: String, onLogout: () -> Unit) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFFF5F7FA) // Latar belakang netral dan bersih
+        color = Color(0xFFF5F7FA)
     ) {
         Column(
             modifier = Modifier
@@ -27,7 +27,6 @@ fun ProfilScreen(nama: String, nim: String, onLogout: () -> Unit) {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Avatar Placeholder
             Box(
                 modifier = Modifier
                     .size(96.dp)
@@ -63,7 +62,6 @@ fun ProfilScreen(nama: String, nim: String, onLogout: () -> Unit) {
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // Kartu informasi
             Card(
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
