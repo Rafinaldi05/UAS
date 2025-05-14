@@ -5,12 +5,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.*
 import com.example.uas.ui.theme.*
-import com.example.uas.ui.theme.SetoranItemCard
 
 @Composable
 fun MainScreen(
     nama: String,
     nim: String,
+    email: String,
     setoranList: List<DataModels.SetoranItem>,
     onLogout: () -> Unit
 ) {
@@ -35,7 +35,12 @@ fun MainScreen(
                 SetoranScreen(setoranList = setoranList)
             }
             composable(DataModels.NavRoutes.PROFIL) {
-                ProfilScreen(nama = nama, nim = nim, onLogout = onLogout)
+                ProfilScreen(
+                    nama = nama,
+                    nim = nim,
+                    email = email,
+                    onLogout = onLogout
+                )
             }
         }
     }

@@ -31,6 +31,7 @@ class HomeActivity : ComponentActivity() {
         val token = intent.getStringExtra("TOKEN") ?: ""
         val nama = intent.getStringExtra("NAMA") ?: "Nama Kosong"
         val nim = intent.getStringExtra("NIM") ?: "NIM Kosong"
+        val email = intent.getStringExtra("Email") ?: "Email Kosong"
 
         viewModel.fetchData(token)
 
@@ -58,6 +59,7 @@ class HomeActivity : ComponentActivity() {
                             MainScreen(
                                 nama = nama,
                                 nim = nim,
+                                email = email,
                                 setoranList = setoranList,
                                 onLogout = {
                                     logout()
@@ -80,6 +82,7 @@ class HomeActivity : ComponentActivity() {
         finish()
     }
 }
+
 class MainViewModel : ViewModel() {
 
     private val _setoranList = MutableStateFlow<List<DataModels.SetoranItem>>(emptyList())

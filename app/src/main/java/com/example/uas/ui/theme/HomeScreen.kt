@@ -11,6 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.uas.DataModels
+import androidx.compose.ui.graphics.Color
+
 @Composable
 fun HomeScreen(
     nama: String,
@@ -25,7 +27,7 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(rememberScrollState()), // agar semua konten bisa discroll
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
@@ -56,7 +58,9 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column {
+                Column (
+                    modifier = Modifier.weight(1f)
+                ) {
                     Text("Progress Setoran", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
                     Text("$sudah dari $total sudah disetor", style = MaterialTheme.typography.bodyMedium)
                 }
@@ -64,7 +68,9 @@ fun HomeScreen(
                     progress = { progress },
                     modifier = Modifier.size(60.dp),
                     strokeWidth = 6.dp,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = Color.LightGray
+
                 )
             }
         }

@@ -15,10 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ProfilScreen(nama: String, nim: String, onLogout: () -> Unit) {
+fun ProfilScreen(nama: String, nim: String, email: String, onLogout: () -> Unit) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFFF5F7FA)
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier
@@ -27,54 +27,36 @@ fun ProfilScreen(nama: String, nim: String, onLogout: () -> Unit) {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
-                modifier = Modifier
-                    .size(96.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFFCFD8DC)),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = nama.take(1).uppercase(),
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-            }
-12350111885
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = nama,
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 22.sp
-                ),
-                color = Color(0xFF263238)
-            )
-
-            Text(
-                text = nim,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = Color(0xFF607D8B)
-                )
-            )
-
-            Spacer(modifier = Modifier.height(40.dp))
-
             Card(
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
                 elevation = CardDefaults.cardElevation(4.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
                     modifier = Modifier
                         .padding(20.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Box(
+                        modifier = Modifier
+                            .size(96.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.primary),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = nama.take(1).uppercase(),
+                            fontSize = 32.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    }
+
                     InfoRow(label = "Nama", value = nama)
                     InfoRow(label = "NIM", value = nim)
+                    InfoRow(label = "Email", value = email)
                 }
             }
 
@@ -101,17 +83,22 @@ fun ProfilScreen(nama: String, nim: String, onLogout: () -> Unit) {
     }
 }
 
+
 @Composable
 fun InfoRow(label: String, value: String) {
-    Column {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.labelMedium.copy(color = Color.Gray),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
             text = value,
             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Medium),
-            color = Color(0xFF263238)
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }
+

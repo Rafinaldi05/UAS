@@ -17,10 +17,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
@@ -60,12 +63,14 @@ fun LoginScreen(onLoginClick: (String, String) -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
+                Image(
+                    painter = painterResource(id = R.drawable.uin),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(72.dp)
+                        .clip(CircleShape)
+
                 )
 
                 Text(
