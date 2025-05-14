@@ -11,6 +11,9 @@ fun MainScreen(
     nama: String,
     nim: String,
     email: String,
+    angkatan: String,
+    semester: Int,
+    dosenPa: String,
     setoranList: List<DataModels.SetoranItem>,
     onLogout: () -> Unit
 ) {
@@ -39,6 +42,9 @@ fun MainScreen(
                     nama = nama,
                     nim = nim,
                     email = email,
+                    angkatan = angkatan,
+                    semester = semester,
+                    dosenPaNama = dosenPa,
                     onLogout = onLogout
                 )
             }

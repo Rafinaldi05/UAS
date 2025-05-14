@@ -32,6 +32,9 @@ class HomeActivity : ComponentActivity() {
         val nama = intent.getStringExtra("NAMA") ?: "Nama Kosong"
         val nim = intent.getStringExtra("NIM") ?: "NIM Kosong"
         val email = intent.getStringExtra("Email") ?: "Email Kosong"
+        val angkatan = intent.getStringExtra("Angkatan") ?: "-"
+        val semester = intent.getIntExtra("Semester", 0)
+        val dosenPa = intent.getStringExtra("DosenPa") ?: "-"
 
         viewModel.fetchData(token)
 
@@ -60,6 +63,9 @@ class HomeActivity : ComponentActivity() {
                                 nama = nama,
                                 nim = nim,
                                 email = email,
+                                angkatan = angkatan,
+                                semester = semester,
+                                dosenPa = dosenPa,
                                 setoranList = setoranList,
                                 onLogout = {
                                     logout()

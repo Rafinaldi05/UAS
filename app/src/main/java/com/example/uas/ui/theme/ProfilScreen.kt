@@ -15,7 +15,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ProfilScreen(nama: String, nim: String, email: String, onLogout: () -> Unit) {
+fun ProfilScreen(
+    nama: String,
+    nim: String,
+    email: String,
+    angkatan: String,
+    semester: Int,
+    dosenPaNama: String,
+    onLogout: () -> Unit
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -24,9 +32,10 @@ fun ProfilScreen(nama: String, nim: String, email: String, onLogout: () -> Unit)
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 24.dp, vertical = 32.dp),
-            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.weight(1f))
+
             Card(
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -34,8 +43,7 @@ fun ProfilScreen(nama: String, nim: String, email: String, onLogout: () -> Unit)
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
-                    modifier = Modifier
-                        .padding(20.dp),
+                    modifier = Modifier.padding(20.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -57,10 +65,13 @@ fun ProfilScreen(nama: String, nim: String, email: String, onLogout: () -> Unit)
                     InfoRow(label = "Nama", value = nama)
                     InfoRow(label = "NIM", value = nim)
                     InfoRow(label = "Email", value = email)
+                    InfoRow(label = "Angkatan", value = angkatan)
+                    InfoRow(label = "Semester", value = semester.toString())
+                    InfoRow(label = "Dosen PA", value = dosenPaNama)
                 }
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.weight(1f))
 
             Button(
                 onClick = onLogout,
@@ -82,6 +93,7 @@ fun ProfilScreen(nama: String, nim: String, email: String, onLogout: () -> Unit)
         }
     }
 }
+
 
 
 @Composable

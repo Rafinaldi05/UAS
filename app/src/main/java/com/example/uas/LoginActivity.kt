@@ -73,6 +73,10 @@ class LoginActivity : ComponentActivity() {
                     val nama = data?.data?.info?.nama ?: "Nama Tidak Diketahui"
                     val nimResmi = data?.data?.info?.nim ?: "NIM Tidak Diketahui"
                     val email =data?.data?.info?.email ?: "Email Tidak Diketahui"
+                    val angkatan = data?.data?.info?.angkatan ?: "-"
+                    val semester = data?.data?.info?.semester ?: 0
+                    val dosenPa = data?.data?.info?.dosenPa?.nama ?: "-"
+
 
                     val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
                     sharedPref.edit().putString("auth_token", token).apply()
@@ -85,6 +89,9 @@ class LoginActivity : ComponentActivity() {
                         intent.putExtra("NAMA", nama)
                         intent.putExtra("NIM", nimResmi)
                         intent.putExtra("Email", email)
+                        intent.putExtra("Angkatan", angkatan)
+                        intent.putExtra("Semester", semester)
+                        intent.putExtra("DosenPa", dosenPa)
                         startActivity(intent)
                         finish()
                     }
