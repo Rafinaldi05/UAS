@@ -14,7 +14,10 @@ fun MainScreen(
     angkatan: String,
     semester: Int,
     dosenPa: String,
+    nipPa: String,
+    emailPa: String,
     setoranList: List<DataModels.SetoranItem>,
+    ringkasanList: List<DataModels.RingkasanItem>,
     onLogout: () -> Unit
 ) {
     val navController = rememberNavController()
@@ -32,7 +35,7 @@ fun MainScreen(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(DataModels.NavRoutes.HOME) {
-                HomeScreen(nama, nim, setoranList)
+                HomeScreen(nama = nama, nim = nim, setoranList = setoranList, ringkasanList = ringkasanList)
             }
             composable(DataModels.NavRoutes.SETORAN) {
                 SetoranScreen(setoranList = setoranList)
@@ -45,6 +48,8 @@ fun MainScreen(
                     angkatan = angkatan,
                     semester = semester,
                     dosenPaNama = dosenPa,
+                    dosenPaNip = nipPa,
+                    dosenPaEmail = emailPa,
                     onLogout = onLogout
                 )
             }

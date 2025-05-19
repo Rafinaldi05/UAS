@@ -34,7 +34,9 @@ class HomeActivity : ComponentActivity() {
         val email = intent.getStringExtra("Email") ?: "Email Kosong"
         val angkatan = intent.getStringExtra("Angkatan") ?: "-"
         val semester = intent.getIntExtra("Semester", 0)
-        val dosenPa = intent.getStringExtra("DosenPa") ?: "-"
+        val dosenPa = intent.getStringExtra("DosenPa") ?: "Nama Kosong"
+        val nipPa = intent.getStringExtra("nipDosenPa") ?: "NIP Kosong"
+        val emailPa = intent.getStringExtra("emailDosenPa") ?: "Email Kosong"
 
         viewModel.fetchData(token)
 
@@ -42,6 +44,7 @@ class HomeActivity : ComponentActivity() {
             UASTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     val setoranList by viewModel.setoranList.collectAsState()
+                    val ringkasanList by viewModel.ringkasanList.collectAsState()
                     val isLoading by viewModel.isLoading.collectAsState()
                     val errorMessage by viewModel.errorMessage.collectAsState()
 
@@ -66,7 +69,10 @@ class HomeActivity : ComponentActivity() {
                                 angkatan = angkatan,
                                 semester = semester,
                                 dosenPa = dosenPa,
+                                nipPa = nipPa,
+                                emailPa = emailPa,
                                 setoranList = setoranList,
+                                ringkasanList = ringkasanList,
                                 onLogout = {
                                     logout()
                                 }
@@ -94,6 +100,9 @@ class MainViewModel : ViewModel() {
     private val _setoranList = MutableStateFlow<List<DataModels.SetoranItem>>(emptyList())
     val setoranList: StateFlow<List<DataModels.SetoranItem>> = _setoranList
 
+    private val _ringkasanList = MutableStateFlow<List<DataModels.RingkasanItem>>(emptyList())
+    val ringkasanList: StateFlow<List<DataModels.RingkasanItem>> = _ringkasanList
+
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading
 
@@ -117,7 +126,9 @@ class MainViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     val data = response.body()
                     val list = data?.data?.setoran?.detail ?: emptyList()
+                    val ringkasan = data?.data?.setoran?.ringkasan ?: emptyList()
                     _setoranList.value = list
+                    _ringkasanList.value = ringkasan
                 } else {
                     _errorMessage.value = "Gagal mengambil data: ${response.code()}"
                 }

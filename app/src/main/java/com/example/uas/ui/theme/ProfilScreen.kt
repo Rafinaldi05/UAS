@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -22,6 +23,8 @@ fun ProfilScreen(
     angkatan: String,
     semester: Int,
     dosenPaNama: String,
+    dosenPaNip: String,
+    dosenPaEmail: String,
     onLogout: () -> Unit
 ) {
     Surface(
@@ -56,7 +59,7 @@ fun ProfilScreen(
                     ) {
                         Text(
                             text = nama.take(1).uppercase(),
-                            fontSize = 32.sp,
+                            fontSize = 33.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
@@ -64,10 +67,12 @@ fun ProfilScreen(
 
                     InfoRow(label = "Nama", value = nama)
                     InfoRow(label = "NIM", value = nim)
-                    InfoRow(label = "Email", value = email)
+                    InfoRow(label = "Email", value = email, fontSize = 15.sp)
                     InfoRow(label = "Angkatan", value = angkatan)
                     InfoRow(label = "Semester", value = semester.toString())
                     InfoRow(label = "Dosen PA", value = dosenPaNama)
+                    InfoRow(label = "NIP Dosen PA", value = dosenPaNip)
+                    InfoRow(label = "Email Dosen PA", value = dosenPaEmail)
                 }
             }
 
@@ -97,7 +102,7 @@ fun ProfilScreen(
 
 
 @Composable
-fun InfoRow(label: String, value: String) {
+fun InfoRow(label: String, value: String, fontSize: TextUnit = 16.sp) {
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -108,6 +113,7 @@ fun InfoRow(label: String, value: String) {
         )
         Text(
             text = value,
+            fontSize = fontSize,
             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Medium),
             color = MaterialTheme.colorScheme.primary
         )

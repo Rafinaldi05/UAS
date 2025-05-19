@@ -2,7 +2,10 @@ package com.example.uas.ui.theme
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,7 +20,8 @@ import androidx.compose.ui.graphics.Color
 fun HomeScreen(
     nama: String,
     nim: String,
-    setoranList: List<DataModels.SetoranItem>
+    setoranList: List<DataModels.SetoranItem>,
+    ringkasanList: List<DataModels.RingkasanItem>
 ) {
     val total = setoranList.size
     val sudah = setoranList.count { it.sudahSetor }
@@ -58,16 +62,19 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column (
+                Column(
                     modifier = Modifier.weight(1f)
                 ) {
                     Text("Progress Setoran", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
-                    Text("$sudah dari $total sudah disetor", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        "$sudah dari $total sudah disetor",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 }
                 CircularProgressIndicator(
                     progress = { progress },
-                    modifier = Modifier.size(60.dp),
-                    strokeWidth = 6.dp,
+                    modifier = Modifier.size(58.dp),
+                    strokeWidth = 4.dp,
                     color = MaterialTheme.colorScheme.primary,
                     trackColor = Color.LightGray
 
@@ -76,27 +83,92 @@ fun HomeScreen(
         }
 
         Text(
-            "Riwayat Terbaru",
+            "Progres",
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
             modifier = Modifier.padding(vertical = 8.dp)
         )
 
-        if (setoranList.isEmpty()) {
+        if (ringkasanList.isEmpty()) {
             Text(
-                "Belum ada setoran",
+                "Belum ada data progres",
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 style = MaterialTheme.typography.bodyLarge
             )
+
         } else {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                setoranList.take(37).forEach { setoran ->
-                    SetoranItemCard(setoran=setoran)
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                ringkasanList.forEach { ringkasan ->
+                    val progressValue = if (ringkasan.total_wajib_setor > 0)
+                        ringkasan.total_sudah_setor.toFloat() / ringkasan.total_wajib_setor
+                    else 0f
+                    val progressPercent = (progressValue * 100).toInt()
+
+                    Card(
+                        shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Info,
+                                contentDescription = null,
+                                tint = if (progressValue == 0f) Color.Gray else MaterialTheme.colorScheme.primary,
+                                modifier = Modifier
+                                    .padding(end = 12.dp)
+                                    .size(20.dp)
+                            )
+
+                            Column(modifier = Modifier.weight(1f)) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Text(
+                                        ringkasan.label,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 16.sp
+                                    )
+                                    Text("~ $progressPercent%", fontSize = 14.sp)
+                                }
+
+                                Text(
+                                    "Wajib: ${ringkasan.total_wajib_setor}, Sudah: ${ringkasan.total_sudah_setor}, Belum: ${ringkasan.total_belum_setor}",
+                                    fontSize = 14.sp
+                                )
+
+                                LinearProgressIndicator(
+                                    progress = { progressValue },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 8.dp)
+                                        .height(8.dp),
+                                    color = if (progressValue == 0f) Color.Gray else MaterialTheme.colorScheme.primary,
+                                    trackColor = Color.LightGray
+                                )
+
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 4.dp),
+                                    horizontalArrangement = Arrangement.End
+                                ) {
+                                    Text(
+                                        "${ringkasan.total_sudah_setor}/${ringkasan.total_wajib_setor}",
+                                        fontSize = 12.sp,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-
     }
 }
