@@ -91,6 +91,8 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation (libs.volley)
     implementation(libs.androidx.navigation.compose)
+    implementation (libs.androidx.core.ktx.v1101)
+    implementation ("androidx.core:core-ktx:1.10.1")
 
 
 

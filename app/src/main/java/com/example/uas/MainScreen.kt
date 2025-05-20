@@ -38,8 +38,14 @@ fun MainScreen(
                 HomeScreen(nama = nama, nim = nim, setoranList = setoranList, ringkasanList = ringkasanList)
             }
             composable(DataModels.NavRoutes.SETORAN) {
-                SetoranScreen(setoranList = setoranList)
+                SetoranScreen(
+                    setoranList = setoranList,
+                    nama = nama,
+                    nim = nim,
+                    dosenPa = dosenPa
+                )
             }
+
             composable(DataModels.NavRoutes.PROFIL) {
                 ProfilScreen(
                     nama = nama,

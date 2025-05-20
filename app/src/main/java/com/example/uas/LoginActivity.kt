@@ -61,6 +61,8 @@ class LoginActivity : ComponentActivity() {
             try {
                 val response = loginService.login(username = nim, password = password)
                 val token = response.accessToken
+                val refreshToken = response.refreshToken
+
 
                 if (token.isNullOrBlank()) {
                     throw Exception("Token tidak ditemukan dalam respons.")
@@ -80,7 +82,10 @@ class LoginActivity : ComponentActivity() {
                     val emailPa = data?.data?.info?.dosenPa?.email ?: "Email Tidak Diketahui"
 
                     val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-                    sharedPref.edit().putString("auth_token", token).apply()
+                    sharedPref.edit()
+                        .putString("auth_token", token)
+                        .putString("refresh_token", refreshToken)
+                        .apply()
 
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@LoginActivity, "Selamat datang $nama ($nimResmi)", Toast.LENGTH_SHORT).show()
