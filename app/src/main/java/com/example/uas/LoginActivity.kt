@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import com.example.uas.ui.theme.UASTheme
 import com.example.uas.ui.theme.LoginScreen
@@ -16,6 +17,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginActivity : ComponentActivity() {
+
+    private var isLoading = mutableStateOf(false)
 
     private val loginService: ApiService by lazy {
         val logging = HttpLoggingInterceptor().apply {
@@ -48,9 +51,12 @@ class LoginActivity : ComponentActivity() {
         setContent {
             UASTheme {
                 Surface(modifier = Modifier) {
-                    LoginScreen { nim, password ->
-                        performLogin(nim, password)
-                    }
+                    LoginScreen (
+                        isLoading = isLoading.value,
+                        onLoginClick = { nim, password -> performLogin(nim, password) },
+                        onLoginStart = { isLoading.value = true },
+                        onLoginFailed = { isLoading.value = false }
+                    )
                 }
             }
         }
@@ -88,6 +94,7 @@ class LoginActivity : ComponentActivity() {
                         .apply()
 
                     withContext(Dispatchers.Main) {
+                        isLoading.value = false
                         Toast.makeText(this@LoginActivity, "Selamat datang $nama ($nimResmi)", Toast.LENGTH_SHORT).show()
 
                         val intent = Intent(this@LoginActivity, HomeActivity::class.java)
@@ -105,12 +112,14 @@ class LoginActivity : ComponentActivity() {
                     }
                 } else {
                     withContext(Dispatchers.Main) {
+                        isLoading.value = false
                         Toast.makeText(this@LoginActivity, "Gagal mendapatkan data mahasiswa", Toast.LENGTH_SHORT).show()
                     }
                 }
 
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
+                    isLoading.value = false
                     Toast.makeText(this@LoginActivity, "Login gagal: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }

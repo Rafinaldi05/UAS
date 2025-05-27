@@ -30,7 +30,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 import com.example.uas.R
 
 @Composable
-fun LoginScreen(onLoginClick: (String, String) -> Unit) {
+fun LoginScreen(
+    isLoading: Boolean,
+    onLoginClick: (String, String) -> Unit,
+    onLoginStart: () -> Unit,
+    onLoginFailed: () -> Unit
+) {
     var nim by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
@@ -126,10 +131,11 @@ fun LoginScreen(onLoginClick: (String, String) -> Unit) {
                 Button(
                     onClick = {
                         if (nim.isNotBlank() && password.isNotBlank()) {
-                            isLoading = true
+                            onLoginStart()
                             onLoginClick(nim, password)
                         } else {
                             Toast.makeText(context, "Isi semua field terlebih dahulu", Toast.LENGTH_SHORT).show()
+                            onLoginFailed()
                         }
                     },
                     modifier = Modifier

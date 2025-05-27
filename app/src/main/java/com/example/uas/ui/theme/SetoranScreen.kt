@@ -179,7 +179,7 @@ fun generatePdf(
         val nomor = (i + 1).toString()
 
         val surah = item.nama.ifBlank { "(belum diisi)" }
-        val ayat = "(${item.dariAyat} - ${item.sampaiAyat})"
+//        val ayat = "(${item.dariAyat} - ${item.sampaiAyat})"
         val judul = "$surah"
 
         val tanggal = try {
@@ -190,11 +190,11 @@ fun generatePdf(
         }
 
         val kategori = when (item.label.uppercase(Locale.ROOT)) {
-            "KP" -> "KP"
-            "SEMKP" -> "SEMKP"
-            "DAFTAR_TA" -> "Daftar TA"
-            "SEMPRO" -> "SEMPRO"
-            "SIDANG_TA" -> "Sidang TA"
+            "KP" -> "Kerja Praktek"
+            "SEMKP" -> "Seminar Kerja Praktek"
+            "DAFTAR_TA" -> "Daftar Tugas Akhir"
+            "SEMPRO" -> "Seminar Proposal"
+            "SIDANG_TA" -> "Sidang Tugas Akhir"
             else -> item.label
         }
 
