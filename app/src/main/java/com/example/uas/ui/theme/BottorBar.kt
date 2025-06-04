@@ -7,42 +7,45 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import com.example.uas.DataModels.NavRoutes
+import com.example.uas.NavRoutes
 
 @Composable
 fun BottomBar(navController: NavHostController, currentRoute: String) {
     NavigationBar {
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Home, null) },
+            icon = { Icon(Icons.Default.Home, contentDescription = "Beranda") },
             label = { Text("Beranda") },
             selected = currentRoute == NavRoutes.HOME,
             onClick = {
-                if (currentRoute != NavRoutes.HOME)
+                if (currentRoute != NavRoutes.HOME) {
                     navController.navigate(NavRoutes.HOME) {
                         popUpTo(navController.graph.startDestinationId) { inclusive = true }
                     }
+                }
             }
         )
         NavigationBarItem(
-            icon = { Icon(Icons.Default.List, null) },
+            icon = { Icon(Icons.Default.List, contentDescription = "Setoran") },
             label = { Text("Setoran") },
             selected = currentRoute == NavRoutes.SETORAN,
             onClick = {
-                if (currentRoute != NavRoutes.SETORAN)
+                if (currentRoute != NavRoutes.SETORAN) {
                     navController.navigate(NavRoutes.SETORAN) {
                         popUpTo(navController.graph.startDestinationId) { inclusive = true }
                     }
+                }
             }
         )
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Person, null) },
+            icon = { Icon(Icons.Default.Person, contentDescription = "Profil") },
             label = { Text("Profil") },
             selected = currentRoute == NavRoutes.PROFIL,
             onClick = {
-                if (currentRoute != NavRoutes.PROFIL)
+                if (currentRoute != NavRoutes.PROFIL) {
                     navController.navigate(NavRoutes.PROFIL) {
                         popUpTo(navController.graph.startDestinationId) { inclusive = true }
                     }
+                }
             }
         )
     }

@@ -18,8 +18,7 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun HomeScreen(
-    nama: String,
-    nim: String,
+    mahasiswaInfo: DataModels.MahasiswaInfo,
     setoranList: List<DataModels.SetoranItem>,
     ringkasanList: List<DataModels.RingkasanItem>
 ) {
@@ -47,8 +46,8 @@ fun HomeScreen(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text("👋 Selamat datang,", fontSize = 16.sp)
-                Text(text = nama, fontSize = 22.sp, fontWeight = FontWeight.Bold)
-                Text("NIM: $nim", fontSize = 16.sp)
+                Text(text = mahasiswaInfo.nama, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                Text("NIM: ${mahasiswaInfo.nim}", fontSize = 16.sp)
             }
         }
 
@@ -77,7 +76,6 @@ fun HomeScreen(
                     strokeWidth = 4.dp,
                     color = MaterialTheme.colorScheme.primary,
                     trackColor = Color.LightGray
-
                 )
             }
         }
@@ -95,12 +93,11 @@ fun HomeScreen(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 style = MaterialTheme.typography.bodyLarge
             )
-
         } else {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 ringkasanList.forEach { ringkasan ->
-                    val progressValue = if (ringkasan.total_wajib_setor > 0)
-                        ringkasan.total_sudah_setor.toFloat() / ringkasan.total_wajib_setor
+                    val progressValue = if (ringkasan.totalWajibSetor > 0)
+                        ringkasan.totalSudahSetor.toFloat() / ringkasan.totalWajibSetor
                     else 0f
                     val progressPercent = (progressValue * 100).toInt()
 
@@ -138,7 +135,7 @@ fun HomeScreen(
                                 }
 
                                 Text(
-                                    "Wajib: ${ringkasan.total_wajib_setor}, Sudah: ${ringkasan.total_sudah_setor}, Belum: ${ringkasan.total_belum_setor}",
+                                    "Wajib: ${ringkasan.totalWajibSetor}, Sudah: ${ringkasan.totalSudahSetor}, Belum: ${ringkasan.totalBelumSetor}",
                                     fontSize = 14.sp
                                 )
 
@@ -159,7 +156,7 @@ fun HomeScreen(
                                     horizontalArrangement = Arrangement.End
                                 ) {
                                     Text(
-                                        "${ringkasan.total_sudah_setor}/${ringkasan.total_wajib_setor}",
+                                        "${ringkasan.totalSudahSetor}/${ringkasan.totalWajibSetor}",
                                         fontSize = 12.sp,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )

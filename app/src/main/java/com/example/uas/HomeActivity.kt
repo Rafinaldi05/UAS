@@ -11,16 +11,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.uas.ui.theme.UASTheme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -32,14 +28,6 @@ class HomeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val token = intent.getStringExtra("TOKEN") ?: ""
-        val nama = intent.getStringExtra("NAMA") ?: "Nama Kosong"
-        val nim = intent.getStringExtra("NIM") ?: "NIM Kosong"
-        val email = intent.getStringExtra("Email") ?: "Email Kosong"
-        val angkatan = intent.getStringExtra("Angkatan") ?: "-"
-        val semester = intent.getIntExtra("Semester", 0)
-        val dosenPa = intent.getStringExtra("DosenPa") ?: "Nama Kosong"
-        val nipPa = intent.getStringExtra("nipDosenPa") ?: "NIP Kosong"
-        val emailPa = intent.getStringExtra("emailDosenPa") ?: "Email Kosong"
 
         viewModel.fetchData(token)
 
@@ -50,35 +38,27 @@ class HomeActivity : ComponentActivity() {
                     val ringkasanList by viewModel.ringkasanList.collectAsState()
                     val isLoading by viewModel.isLoading.collectAsState()
                     val errorMessage by viewModel.errorMessage.collectAsState()
+                    val mahasiswaInfo by viewModel.mahasiswaInfo.collectAsState()
 
                     when {
                         isLoading -> {
-                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                                 CircularProgressIndicator()
                             }
                         }
 
                         errorMessage != null -> {
-                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                                 Text(text = errorMessage ?: "Terjadi kesalahan")
                             }
                         }
 
-                        else -> {
+                        mahasiswaInfo != null -> {
                             MainScreen(
-                                nama = nama,
-                                nim = nim,
-                                email = email,
-                                angkatan = angkatan,
-                                semester = semester,
-                                dosenPa = dosenPa,
-                                nipPa = nipPa,
-                                emailPa = emailPa,
+                                mahasiswaInfo = mahasiswaInfo!!,
                                 setoranList = setoranList,
                                 ringkasanList = ringkasanList,
-                                onLogout = {
-                                    logout()
-                                }
+                                onLogout = { logout() }
                             )
                         }
                     }
@@ -89,9 +69,9 @@ class HomeActivity : ComponentActivity() {
 
     private fun logout() {
         val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-        val refreshToken = sharedPref.getString("refresh_token", null)
+        val idToken = sharedPref.getString("id_token", null)
 
-        if (refreshToken != null) {
+        if (idToken != null) {
             val loginApi = Retrofit.Builder()
                 .baseUrl("https://id.tif.uin-suska.ac.id/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -100,15 +80,11 @@ class HomeActivity : ComponentActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    val response = loginApi.logout(refreshToken = refreshToken)
+                    val response = loginApi.logout(idToken = idToken)
                     if (response.isSuccessful) {
                         withContext(Dispatchers.Main) {
                             sharedPref.edit().clear().apply()
-
-                            val intent = Intent(this@HomeActivity, LoginActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(intent)
-                            finish()
+                            startLoginActivity()
                         }
                     } else {
                         withContext(Dispatchers.Main) {
@@ -123,16 +99,23 @@ class HomeActivity : ComponentActivity() {
             }
         } else {
             sharedPref.edit().clear().apply()
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
+            startLoginActivity()
         }
     }
 
+    private fun startLoginActivity() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
 }
 
+
 class MainViewModel : ViewModel() {
+
+    private val _mahasiswaInfo = MutableStateFlow<DataModels.MahasiswaInfo?>(null)
+    val mahasiswaInfo: StateFlow<DataModels.MahasiswaInfo?> = _mahasiswaInfo
 
     private val _setoranList = MutableStateFlow<List<DataModels.SetoranItem>>(emptyList())
     val setoranList: StateFlow<List<DataModels.SetoranItem>> = _setoranList
@@ -162,10 +145,9 @@ class MainViewModel : ViewModel() {
                 val response = apiService.getMahasiswa("Bearer $token")
                 if (response.isSuccessful) {
                     val data = response.body()
-                    val list = data?.data?.setoran?.detail ?: emptyList()
-                    val ringkasan = data?.data?.setoran?.ringkasan ?: emptyList()
-                    _setoranList.value = list
-                    _ringkasanList.value = ringkasan
+                    _mahasiswaInfo.value = data?.data?.info
+                    _setoranList.value = data?.data?.setoran?.detail ?: emptyList()
+                    _ringkasanList.value = data?.data?.setoran?.ringkasan ?: emptyList()
                 } else {
                     _errorMessage.value = "Gagal mengambil data: ${response.code()}"
                 }

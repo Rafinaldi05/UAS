@@ -1,10 +1,10 @@
 package com.example.uas
 
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
-
 
     @FormUrlEncoded
     @POST("realms/dev/protocol/openid-connect/token")
@@ -26,7 +26,10 @@ interface ApiService {
     suspend fun logout(
         @Field("client_id") clientId: String = "setoran-mobile-dev",
         @Field("client_secret") clientSecret: String = "aqJp3xnXKudgC7RMOshEQP7ZoVKWzoSl",
-        @Field("refresh_token") refreshToken: String
+        @Field("id_token") idToken: String
     ): Response<Unit>
+
+    @GET("setoran-dev/v1/mahasiswa/kartu-murojaah-saya")
+    suspend fun downloadKartuMurojaah(@Header("Authorization") token: String): Response<ResponseBody>
 
 }

@@ -1,11 +1,7 @@
 package com.example.uas.ui.theme
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.pdf.PdfDocument
-import android.graphics.Paint
-import android.graphics.Typeface
-import android.graphics.Canvas
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,44 +13,90 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.FileProvider
+import com.example.uas.ApiService
 import com.example.uas.DataModels
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.Rect
-import com.example.uas.R
-import java.text.SimpleDateFormat
-import java.util.*
-
+import java.io.InputStream
+import android.content.ContentValues
+import android.os.Build
+import android.provider.MediaStore
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.ui.graphics.Color
 
 
 @Composable
 fun SetoranScreen(
     setoranList: List<DataModels.SetoranItem>,
-    nama: String,
-    nim: String,
-    dosenPa: String
+    mahasiswaInfo: DataModels.MahasiswaInfo
 ) {
     val context = LocalContext.current
+    val searchQuery = remember { mutableStateOf("") }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    val filteredList = setoranList.filter {
+        it.nama.contains(searchQuery.value, ignoreCase = true)
+    }
 
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
+
+        Text(
+            text = "Riwayat Murojaah",
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+
+        // Tombol Download
         Button(
-            onClick = {
-                generatePdf(context, nama, nim, dosenPa, setoranList)
-            },
+            onClick = { downloadKartuMurojaahPdf(context) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(bottom = 12.dp),
+            shape = RoundedCornerShape(12.dp)
         ) {
-            Text("Download PDF")
+            Text("📄 Download Kartu Murojaah")
         }
 
-        LazyColumn {
-            items(setoranList) { item ->
-                SetoranItemCard(setoran = item)
+        // Search Field
+        OutlinedTextField(
+            value = searchQuery.value,
+            onValueChange = { searchQuery.value = it },
+            label = { Text("Cari Nama Surah") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 12.dp),
+            shape = RoundedCornerShape(12.dp),
+            singleLine = true,
+            trailingIcon = {
+                Icon(Icons.Default.Search, contentDescription = null)
+            }
+        )
+
+        if (filteredList.isEmpty()) {
+            Text(
+                "Tidak ditemukan surah dengan kata '${searchQuery.value}'",
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        } else {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(filteredList) { item ->
+                    SetoranItemCard(setoran = item)
+                }
             }
         }
     }
@@ -63,200 +105,96 @@ fun SetoranScreen(
 @Composable
 fun SetoranItemCard(setoran: DataModels.SetoranItem) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp, horizontal = 8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+        shape = RoundedCornerShape(12.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = setoran.nama,
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp
+                fontSize = 18.sp,
+                color = MaterialTheme.colorScheme.primary
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "Kategori: ${setoran.label}",
-                fontSize = 14.sp
-            )
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(6.dp))
+            Text("Kategori: ${setoran.label}", fontSize = 14.sp)
             Text(
                 text = if (setoran.sudahSetor) "✅ Sudah Setor" else "❌ Belum Setor",
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                color = if (setoran.sudahSetor) Color(0xFF2E7D32) else Color(0xFFC62828)
             )
         }
     }
 }
 
-fun generatePdf(
-    context: Context,
-    nama: String,
-    nim: String,
-    dosenPa: String,
-    setoranList: List<DataModels.SetoranItem>
-) {
-    val document = PdfDocument()
-    val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
-    val page = document.startPage(pageInfo)
-    val canvas = page.canvas
+fun downloadKartuMurojaahPdf(context: Context) {
+    val retrofit = Retrofit.Builder()
+        .baseUrl("https://api.tif.uin-suska.ac.id/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
-    val paint = Paint().apply {
-        textSize = 7f
-        isAntiAlias = true
-        color = Color.BLACK
+    val apiService = retrofit.create(ApiService::class.java)
+    val token = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        .getString("auth_token", null)
+
+    if (token.isNullOrBlank()) {
+        Toast.makeText(context, "Token tidak ditemukan", Toast.LENGTH_SHORT).show()
+        return
     }
 
-    val boldPaint = Paint(paint).apply {
-        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-    }
+    CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = apiService.downloadKartuMurojaah("Bearer $token")
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    val fileName = "kartu_murojaah.pdf"
 
-    val headerPaint = Paint().apply {
-        color = Color.LTGRAY
-        style = Paint.Style.FILL
-    }
+                    val contentValues = ContentValues().apply {
+                        put(MediaStore.Downloads.DISPLAY_NAME, fileName)
+                        put(MediaStore.Downloads.MIME_TYPE, "application/pdf")
+                        put(MediaStore.Downloads.IS_PENDING, 1)
+                    }
 
-    var y = 30f
+                    val resolver = context.contentResolver
+                    val collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+                    val uri = resolver.insert(collection, contentValues)
 
-    val logo = try {
-        BitmapFactory.decodeResource(context.resources, R.drawable.uin)
-    } catch (e: Exception) {
-        null
-    }
+                    if (uri != null) {
+                        resolver.openOutputStream(uri)?.use { outputStream ->
+                            body.byteStream().use { inputStream ->
+                                inputStream.copyTo(outputStream)
+                            }
+                        }
 
-    logo?.let {
-        val scaledLogo = Bitmap.createScaledBitmap(it, 50, 50, false)
-        canvas.drawBitmap(scaledLogo, 20f, y, null)
-    }
+                        contentValues.clear()
+                        contentValues.put(MediaStore.Downloads.IS_PENDING, 0)
+                        resolver.update(uri, contentValues, null, null)
 
-    canvas.drawText("KARTU MUROJA'AH JUZ 30", 90f, y + 10f, boldPaint)
-    canvas.drawText("PROGRAM STUDI TEKNIK INFORMATIKA", 90f, y + 25f, paint)
-    canvas.drawText("FAKULTAS SAINS DAN TEKNOLOGI", 90f, y + 35f, paint)
-    canvas.drawText("UNIVERSITAS ISLAM NEGERI SULTAN SYARIF KASIM RIAU", 90f, y + 45f, paint)
-
-    y += 70f
-    canvas.drawLine(20f, y, 575f, y, paint)
-    y += 10f
-
-    val labelX = 20f
-    val valueX = 150f
-
-    canvas.drawText("Nama:", labelX, y, boldPaint)
-    canvas.drawText(nama, valueX, y, paint)
-    y += 12f
-
-    canvas.drawText("NIM:", labelX, y, boldPaint)
-    canvas.drawText(nim, valueX, y, paint)
-    y += 12f
-
-    canvas.drawText("Pembimbing Akademik:", labelX, y, boldPaint)
-    canvas.drawText(dosenPa, valueX, y, paint)
-    y += 20f
-
-
-    val xStart = 20f
-    val colWidths = listOf(20f, 150f, 80f, 120f, 110f)
-    val colX = colWidths.runningFold(xStart) { acc, w -> acc + w }
-    val headers = listOf("No.", "Surah", "Tanggal", "Persyaratan", "Dosen")
-
-    val headerHeight = 14f
-    canvas.drawRect(xStart, y, colX.last(), y + headerHeight, headerPaint)
-    headers.forEachIndexed { i, h ->
-        canvas.drawText(h, colX[i] + 2f, y + 10f, boldPaint)
-    }
-
-    y += headerHeight
-    canvas.drawLine(xStart, y, colX.last(), y, paint)
-
-    val rowHeight = 13f
-    val maxRows = setoranList.size.coerceAtMost(37)
-
-    for (i in 0 until maxRows) {
-        val rowY = y + i * rowHeight
-        if (rowY + rowHeight > 800f) break
-
-        val item = setoranList[i]
-        val nomor = (i + 1).toString()
-
-        val surah = item.nama.ifBlank { "(belum diisi)" }
-//        val ayat = "(${item.dariAyat} - ${item.sampaiAyat})"
-        val judul = "$surah"
-
-        val tanggal = try {
-            val infoMap = item.infoSetoran as? Map<*, *>
-            infoMap?.get("tgl_setoran") as? String ?: "(belum diisi)"
-        } catch (e: Exception) {
-            "(belum diisi)"
-        }
-
-        val kategori = when (item.label.uppercase(Locale.ROOT)) {
-            "KP" -> "Kerja Praktek"
-            "SEMKP" -> "Seminar Kerja Praktek"
-            "DAFTAR_TA" -> "Daftar Tugas Akhir"
-            "SEMPRO" -> "Seminar Proposal"
-            "SIDANG_TA" -> "Sidang Tugas Akhir"
-            else -> item.label
-        }
-
-        val pengesah = if (item.sudahSetor) dosenPa else "-"
-
-        val cols = listOf(nomor, judul, tanggal, kategori, pengesah)
-
-        cols.forEachIndexed { j, text ->
-            canvas.drawText(text, colX[j] + 2f, rowY + 10f, paint)
-        }
-    }
-
-
-    for (x in colX) {
-        canvas.drawLine(x, y - 10f, x, y + maxRows * rowHeight, paint)
-    }
-
-    for (i in 0..maxRows) {
-        val lineY = y + i * rowHeight
-        canvas.drawLine(xStart, lineY, colX.last(), lineY, paint)
-    }
-
-    val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale("id"))
-    val tanggalSekarang = dateFormat.format(Date())
-    val signY = y + maxRows * rowHeight + 20f
-
-    canvas.drawText("Pekanbaru, $tanggalSekarang", 370f, signY, paint)
-    canvas.drawText("Pembimbing Akademik,", 370f, signY + 12f, paint)
-    canvas.drawText(dosenPa, 370f, signY + 45f, boldPaint)
-    canvas.drawText("NIP: 197408072009011007", 370f, signY + 58f, paint)
-
-    document.finishPage(page)
-
-    val fileName = "kartu_murojaah_${nama}_$nim.pdf"
-    val contentValues = android.content.ContentValues().apply {
-        put(android.provider.MediaStore.Downloads.DISPLAY_NAME, fileName)
-        put(android.provider.MediaStore.Downloads.MIME_TYPE, "application/pdf")
-        put(android.provider.MediaStore.Downloads.IS_PENDING, 1)
-    }
-
-    val resolver = context.contentResolver
-    val collection = android.provider.MediaStore.Downloads.getContentUri(android.provider.MediaStore.VOLUME_EXTERNAL_PRIMARY)
-    val itemUri = resolver.insert(collection, contentValues)
-
-    try {
-        itemUri?.let {
-            resolver.openOutputStream(it)?.use { outputStream ->
-                document.writeTo(outputStream)
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "PDF berhasil disimpan ke Downloads", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "Gagal menyimpan ke Downloads", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "File kosong", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Gagal mengunduh PDF", Toast.LENGTH_SHORT).show()
+                }
             }
-
-            contentValues.clear()
-            contentValues.put(android.provider.MediaStore.Downloads.IS_PENDING, 0)
-            resolver.update(it, contentValues, null, null)
-
-            Toast.makeText(context, "PDF berhasil disimpan ke folder Downloads", Toast.LENGTH_SHORT).show()
-        } ?: run {
-            Toast.makeText(context, "Gagal menyimpan PDF", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         }
-    } catch (e: IOException) {
-        e.printStackTrace()
-        Toast.makeText(context, "Terjadi kesalahan saat menyimpan PDF", Toast.LENGTH_SHORT).show()
-    } finally {
-        document.close()
     }
 }

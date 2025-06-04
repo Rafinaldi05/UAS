@@ -14,23 +14,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.uas.DataModels
 
 @Composable
 fun ProfilScreen(
-    nama: String,
-    nim: String,
-    email: String,
-    angkatan: String,
-    semester: Int,
-    dosenPaNama: String,
-    dosenPaNip: String,
-    dosenPaEmail: String,
+    mahasiswaInfo: DataModels.MahasiswaInfo,
     onLogout: () -> Unit
 ) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
+    val dosenPa = mahasiswaInfo.dosenPa
+
+    Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -41,9 +34,9 @@ fun ProfilScreen(
 
             Card(
                 shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-                elevation = CardDefaults.cardElevation(4.dp),
-                modifier = Modifier.fillMaxWidth()
+                elevation = CardDefaults.cardElevation(4.dp)
             ) {
                 Column(
                     modifier = Modifier.padding(20.dp),
@@ -58,21 +51,21 @@ fun ProfilScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = nama.take(1).uppercase(),
+                            text = mahasiswaInfo.nama.take(1).uppercase(),
                             fontSize = 33.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
                     }
 
-                    InfoRow(label = "Nama", value = nama)
-                    InfoRow(label = "NIM", value = nim)
-                    InfoRow(label = "Email", value = email, fontSize = 15.sp)
-                    InfoRow(label = "Angkatan", value = angkatan)
-                    InfoRow(label = "Semester", value = semester.toString())
-                    InfoRow(label = "Dosen PA", value = dosenPaNama)
-                    InfoRow(label = "NIP Dosen PA", value = dosenPaNip)
-                    InfoRow(label = "Email Dosen PA", value = dosenPaEmail)
+                    InfoRow("Nama", mahasiswaInfo.nama)
+                    InfoRow("NIM", mahasiswaInfo.nim)
+                    InfoRow("Email", mahasiswaInfo.email, fontSize = 15.sp)
+                    InfoRow("Angkatan", mahasiswaInfo.angkatan)
+                    InfoRow("Semester", mahasiswaInfo.semester.toString())
+                    InfoRow("Dosen PA", dosenPa.nama)
+                    InfoRow("NIP Dosen PA", dosenPa.nip)
+                    InfoRow("Email Dosen PA", dosenPa.email)
                 }
             }
 
@@ -89,11 +82,7 @@ fun ProfilScreen(
                     contentColor = Color.White
                 )
             ) {
-                Text(
-                    text = "Logout",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
-                )
+                Text("Logout", fontSize = 16.sp, fontWeight = FontWeight.Medium)
             }
         }
     }

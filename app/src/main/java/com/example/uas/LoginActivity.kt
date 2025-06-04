@@ -8,8 +8,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import com.example.uas.ui.theme.UASTheme
 import com.example.uas.ui.theme.LoginScreen
+import com.example.uas.ui.theme.UASTheme
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -51,7 +51,7 @@ class LoginActivity : ComponentActivity() {
         setContent {
             UASTheme {
                 Surface(modifier = Modifier) {
-                    LoginScreen (
+                    LoginScreen(
                         isLoading = isLoading.value,
                         onLoginClick = { nim, password -> performLogin(nim, password) },
                         onLoginStart = { isLoading.value = true },
@@ -68,7 +68,7 @@ class LoginActivity : ComponentActivity() {
                 val response = loginService.login(username = nim, password = password)
                 val token = response.accessToken
                 val refreshToken = response.refreshToken
-
+                val idToken = response.idToken
 
                 if (token.isNullOrBlank()) {
                     throw Exception("Token tidak ditemukan dalam respons.")
@@ -77,38 +77,28 @@ class LoginActivity : ComponentActivity() {
                 val mahasiswaResponse = setoranService.getMahasiswa("Bearer $token")
 
                 if (mahasiswaResponse.isSuccessful) {
-                    val data = mahasiswaResponse.body()
-                    val nama = data?.data?.info?.nama ?: "Nama Tidak Diketahui"
-                    val nimResmi = data?.data?.info?.nim ?: "NIM Tidak Diketahui"
-                    val email =data?.data?.info?.email ?: "Email Tidak Diketahui"
-                    val angkatan = data?.data?.info?.angkatan ?: "-"
-                    val semester = data?.data?.info?.semester ?: 0
-                    val dosenPa = data?.data?.info?.dosenPa?.nama ?: "Nama Tidak Diketahui"
-                    val nipPa = data?.data?.info?.dosenPa?.nip ?: "NIP Tidak Diketahui"
-                    val emailPa = data?.data?.info?.dosenPa?.email ?: "Email Tidak Diketahui"
+                    val info: DataModels.MahasiswaInfo? = mahasiswaResponse.body()?.data?.info
 
-                    val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-                    sharedPref.edit()
-                        .putString("auth_token", token)
-                        .putString("refresh_token", refreshToken)
-                        .apply()
+                    if (info != null) {
+                        val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                        sharedPref.edit()
+                            .putString("auth_token", token)
+                            .putString("refresh_token", refreshToken)
+                            .putString("id_token", idToken)
+                            .apply()
 
-                    withContext(Dispatchers.Main) {
-                        isLoading.value = false
-                        Toast.makeText(this@LoginActivity, "Selamat datang $nama ($nimResmi)", Toast.LENGTH_SHORT).show()
+                        withContext(Dispatchers.Main) {
+                            isLoading.value = false
+                            Toast.makeText(this@LoginActivity, "Selamat datang ${info.nama} (${info.nim})", Toast.LENGTH_SHORT).show()
 
-                        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                        intent.putExtra("TOKEN", token)
-                        intent.putExtra("NAMA", nama)
-                        intent.putExtra("NIM", nimResmi)
-                        intent.putExtra("Email", email)
-                        intent.putExtra("Angkatan", angkatan)
-                        intent.putExtra("Semester", semester)
-                        intent.putExtra("DosenPa", dosenPa)
-                        intent.putExtra("nipDosenPa", nipPa)
-                        intent.putExtra("emailDosenPa", emailPa)
-                        startActivity(intent)
-                        finish()
+                            val intent = Intent(this@LoginActivity, HomeActivity::class.java).apply {
+                                putExtra("TOKEN", token)
+                            }
+                            startActivity(intent)
+                            finish()
+                        }
+                    } else {
+                        throw Exception("Data info mahasiswa kosong")
                     }
                 } else {
                     withContext(Dispatchers.Main) {
@@ -116,7 +106,6 @@ class LoginActivity : ComponentActivity() {
                         Toast.makeText(this@LoginActivity, "Gagal mendapatkan data mahasiswa", Toast.LENGTH_SHORT).show()
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     isLoading.value = false

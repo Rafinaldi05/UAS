@@ -5,24 +5,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.*
 import com.example.uas.ui.theme.*
+import com.example.uas.NavRoutes
 
 @Composable
 fun MainScreen(
-    nama: String,
-    nim: String,
-    email: String,
-    angkatan: String,
-    semester: Int,
-    dosenPa: String,
-    nipPa: String,
-    emailPa: String,
+    mahasiswaInfo: DataModels.MahasiswaInfo,
     setoranList: List<DataModels.SetoranItem>,
     ringkasanList: List<DataModels.RingkasanItem>,
     onLogout: () -> Unit
 ) {
     val navController = rememberNavController()
     val currentBackStack by navController.currentBackStackEntryAsState()
-    val currentRoute = currentBackStack?.destination?.route ?: DataModels.NavRoutes.HOME
+    val currentRoute = currentBackStack?.destination?.route ?: NavRoutes.HOME
 
     androidx.compose.material3.Scaffold(
         bottomBar = {
@@ -31,31 +25,27 @@ fun MainScreen(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = DataModels.NavRoutes.HOME,
+            startDestination = NavRoutes.HOME,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(DataModels.NavRoutes.HOME) {
-                HomeScreen(nama = nama, nim = nim, setoranList = setoranList, ringkasanList = ringkasanList)
-            }
-            composable(DataModels.NavRoutes.SETORAN) {
-                SetoranScreen(
+            composable(NavRoutes.HOME) {
+                HomeScreen(
+                    mahasiswaInfo = mahasiswaInfo,
                     setoranList = setoranList,
-                    nama = nama,
-                    nim = nim,
-                    dosenPa = dosenPa
+                    ringkasanList = ringkasanList
                 )
             }
 
-            composable(DataModels.NavRoutes.PROFIL) {
+            composable(NavRoutes.SETORAN) {
+                SetoranScreen(
+                    setoranList = setoranList,
+                    mahasiswaInfo = mahasiswaInfo
+                )
+            }
+
+            composable(NavRoutes.PROFIL) {
                 ProfilScreen(
-                    nama = nama,
-                    nim = nim,
-                    email = email,
-                    angkatan = angkatan,
-                    semester = semester,
-                    dosenPaNama = dosenPa,
-                    dosenPaNip = nipPa,
-                    dosenPaEmail = emailPa,
+                    mahasiswaInfo = mahasiswaInfo,
                     onLogout = onLogout
                 )
             }

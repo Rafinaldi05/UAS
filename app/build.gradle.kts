@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -92,7 +93,7 @@ dependencies {
     implementation (libs.volley)
     implementation(libs.androidx.navigation.compose)
     implementation (libs.androidx.core.ktx.v1101)
-    implementation ("androidx.core:core-ktx:1.10.1")
+    implementation (libs.androidx.core.ktx)
 
 
 

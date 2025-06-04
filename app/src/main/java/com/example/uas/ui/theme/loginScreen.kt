@@ -38,7 +38,6 @@ fun LoginScreen(
 ) {
     var nim by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var isLoading by remember { mutableStateOf(false) }
     var passwordVisible by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
@@ -48,7 +47,7 @@ fun LoginScreen(
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFF0050AC), Color(0xFF9354B9))
+                    colors = listOf(Color(0xFF1A3E7E), Color(0xFF789EDE))
                 )
             )
             .padding(16.dp),
@@ -75,7 +74,6 @@ fun LoginScreen(
                     modifier = Modifier
                         .size(72.dp)
                         .clip(CircleShape)
-
                 )
 
                 Text(
@@ -123,7 +121,7 @@ fun LoginScreen(
                         .align(Alignment.End)
                         .clickable {
                             Toast
-                                .makeText(context, "Silakan hubungi admin:D", Toast.LENGTH_SHORT)
+                                .makeText(context, "Silakan hubungi admin :D", Toast.LENGTH_SHORT)
                                 .show()
                         }
                 )
