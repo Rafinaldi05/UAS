@@ -58,7 +58,6 @@ fun SetoranScreen(
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        // Tombol Download
         Button(
             onClick = { downloadKartuMurojaahPdf(context) },
             modifier = Modifier
@@ -69,7 +68,6 @@ fun SetoranScreen(
             Text("📄 Download Kartu Murojaah")
         }
 
-        // Search Field
         OutlinedTextField(
             value = searchQuery.value,
             onValueChange = { searchQuery.value = it },
