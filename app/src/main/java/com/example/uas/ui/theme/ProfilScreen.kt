@@ -57,7 +57,6 @@ fun ProfilScreen(
                             color = Color.White
                         )
                     }
-
                     InfoRow("Nama", mahasiswaInfo.nama)
                     InfoRow("NIM", mahasiswaInfo.nim)
                     InfoRow("Email", mahasiswaInfo.email, fontSize = 15.sp)

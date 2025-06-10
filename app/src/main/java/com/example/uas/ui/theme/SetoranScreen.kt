@@ -33,24 +33,39 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.Alignment
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 
 @Composable
 fun SetoranScreen(
     setoranList: List<DataModels.SetoranItem>,
-    mahasiswaInfo: DataModels.MahasiswaInfo
+    mahasiswaInfo: DataModels.MahasiswaInfo,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit
 ) {
     val context = LocalContext.current
     val searchQuery = remember { mutableStateOf("") }
+    val selectedFilter = remember { mutableStateOf("Semua") }
 
     val filteredList = setoranList.filter {
-        it.nama.contains(searchQuery.value, ignoreCase = true)
+        val matchesSearch = it.nama.contains(searchQuery.value, ignoreCase = true)
+        val matchesFilter = when (selectedFilter.value) {
+            "Selesai" -> it.sudahSetor
+            "Belum" -> !it.sudahSetor
+            else -> true
+        }
+        matchesSearch && matchesFilter
     }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
-
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         Text(
             text = "Riwayat Murojaah",
             style = MaterialTheme.typography.headlineSmall,
@@ -68,6 +83,38 @@ fun SetoranScreen(
             Text("📄 Download Kartu Murojaah")
         }
 
+        val filters = listOf("Semua", "Selesai", "Belum")
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 12.dp)
+        ) {
+            items(filters) { filter ->
+                val isSelected = selectedFilter.value == filter
+                Button(
+                    onClick = { selectedFilter.value = filter },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isSelected) MaterialTheme.colorScheme.primary else Color(0xFFE0E0E0),
+                        contentColor = if (isSelected) Color.White else Color.Black
+                    ),
+                    shape = RoundedCornerShape(50),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+                    Text(
+                        text = when (filter) {
+                            "Semua" -> "Semua muroja'ah"
+                            "Selesai" -> "Selesai muroja'ah"
+                            "Belum" -> "Belum muroja'ah"
+                            else -> filter
+                        },
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                    )
+                }
+            }
+        }
+
         OutlinedTextField(
             value = searchQuery.value,
             onValueChange = { searchQuery.value = it },
@@ -82,18 +129,23 @@ fun SetoranScreen(
             }
         )
 
-        if (filteredList.isEmpty()) {
-            Text(
-                "Tidak ditemukan surah dengan kata '${searchQuery.value}'",
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                style = MaterialTheme.typography.bodyMedium
-            )
-        } else {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(filteredList) { item ->
-                    SetoranItemCard(setoran = item)
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(isRefreshing),
+            onRefresh = onRefresh
+        ) {
+            if (filteredList.isEmpty()) {
+                Text(
+                    "Tidak ditemukan surah dengan kata '${searchQuery.value}'",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            } else {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(filteredList) { item ->
+                        SetoranItemCard(setoran = item)
+                    }
                 }
             }
         }

@@ -37,6 +37,7 @@ class HomeActivity : ComponentActivity() {
                     val setoranList by viewModel.setoranList.collectAsState()
                     val ringkasanList by viewModel.ringkasanList.collectAsState()
                     val isLoading by viewModel.isLoading.collectAsState()
+                    val isRefreshing by viewModel.isRefreshing.collectAsState()
                     val errorMessage by viewModel.errorMessage.collectAsState()
                     val mahasiswaInfo by viewModel.mahasiswaInfo.collectAsState()
 
@@ -58,6 +59,8 @@ class HomeActivity : ComponentActivity() {
                                 mahasiswaInfo = mahasiswaInfo!!,
                                 setoranList = setoranList,
                                 ringkasanList = ringkasanList,
+                                isRefreshing = isRefreshing,
+                                onRefresh = { viewModel.refreshData(token) },
                                 onLogout = { logout() }
                             )
                         }
@@ -126,6 +129,9 @@ class MainViewModel : ViewModel() {
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing
+
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
 
@@ -135,6 +141,24 @@ class MainViewModel : ViewModel() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
+    }
+
+    fun refreshData(token: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isRefreshing.value = true
+            try {
+                val response = apiService.getMahasiswa("Bearer $token")
+                if (response.isSuccessful) {
+                    val data = response.body()
+                    _mahasiswaInfo.value = data?.data?.info
+                    _setoranList.value = data?.data?.setoran?.detail ?: emptyList()
+                    _ringkasanList.value = data?.data?.setoran?.ringkasan ?: emptyList()
+                }
+            } catch (_: Exception) {
+            } finally {
+                _isRefreshing.value = false
+            }
+        }
     }
 
     fun fetchData(token: String) {

@@ -95,7 +95,9 @@ dependencies {
     implementation (libs.androidx.core.ktx.v1101)
     implementation (libs.androidx.core.ktx)
 
+    implementation(libs.accompanist.swiperefresh)
 
+    implementation(libs.lottie.compose)
 
 
 }

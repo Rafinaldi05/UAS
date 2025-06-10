@@ -19,7 +19,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class LoginActivity : ComponentActivity() {
 
     private var isLoading = mutableStateOf(false)
-
     private val loginService: ApiService by lazy {
         val logging = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -89,9 +88,11 @@ class LoginActivity : ComponentActivity() {
 
                         withContext(Dispatchers.Main) {
                             isLoading.value = false
+//                            showSuccessLoading.value = false
+
                             Toast.makeText(this@LoginActivity, "Selamat datang ${info.nama} (${info.nim})", Toast.LENGTH_SHORT).show()
 
-                            val intent = Intent(this@LoginActivity, HomeActivity::class.java).apply {
+                            val intent = Intent(this@LoginActivity, LoginSuccessActivity::class.java).apply {
                                 putExtra("TOKEN", token)
                             }
                             startActivity(intent)

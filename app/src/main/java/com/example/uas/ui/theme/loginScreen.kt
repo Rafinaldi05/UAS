@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
 import com.example.uas.R
+import com.airbnb.lottie.compose.*
 
 @Composable
 fun LoginScreen(

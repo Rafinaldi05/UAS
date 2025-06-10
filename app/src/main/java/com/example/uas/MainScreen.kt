@@ -12,8 +12,11 @@ fun MainScreen(
     mahasiswaInfo: DataModels.MahasiswaInfo,
     setoranList: List<DataModels.SetoranItem>,
     ringkasanList: List<DataModels.RingkasanItem>,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
     onLogout: () -> Unit
-) {
+)
+ {
     val navController = rememberNavController()
     val currentBackStack by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStack?.destination?.route ?: NavRoutes.HOME
@@ -39,9 +42,12 @@ fun MainScreen(
             composable(NavRoutes.SETORAN) {
                 SetoranScreen(
                     setoranList = setoranList,
-                    mahasiswaInfo = mahasiswaInfo
+                    mahasiswaInfo = mahasiswaInfo,
+                    isRefreshing = isRefreshing,
+                    onRefresh = onRefresh
                 )
             }
+
 
             composable(NavRoutes.PROFIL) {
                 ProfilScreen(
